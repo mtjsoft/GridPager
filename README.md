@@ -4,6 +4,7 @@ GridPager组件，几行代码即可实现类似美团APP的多分类分页显�
 <img src="./gif.gif"/>
 
 # 1、Add it in your root build.gradle at the end of repositories:
+
 ```
 allprojects {
 		repositories {
@@ -12,13 +13,16 @@ allprojects {
 		}
 	}
 ```
+
 # 2、Add the dependency
+
 ```
 dependencies {
 	        implementation 'com.github.mtjsoft:GridPager:v1.0.0'
 	}
 ```
 # 3、xml
+
 ```
 <cn.mtjsoft.www.gridpager.GridPager
         android:id="@+id/gridpager"
@@ -41,6 +45,7 @@ dependencies {
     </cn.mtjsoft.www.gridpager.GridPager>
 ```
 # 4、属性说明
+
 属性  | 说明
 ------------- | -------------
 verticalSpacing  | 设置item的纵向间距 默认10dp
@@ -59,6 +64,7 @@ point_select_color  | 指示器item选中的颜色 默认红色
 point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高的最小值
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
+
 ```
 GridPager gridPager = findViewById(R.id.gridpager);
         gridPager
@@ -82,7 +88,9 @@ GridPager gridPager = findViewById(R.id.gridpager);
                 })
                 .show();
 ```
-# 5、代码中也可直接设置属性（如果xml与代码都设置了， 最终以代码设置为准）
+
+# 6、代码中也可直接设置属性（如果xml与代码都设置了， 最终以代码设置为准）
+
 ```
         gridPager
                 // 设置数量总条数
