@@ -1,6 +1,7 @@
 # GridPager
 
-GridPager组件，几行代码即可实现类似美团APP的多分类分页显示，链式调用，极简接入。
+GridPager组件：ViewPager结合GridView，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
+链式调用，属性配置，几行代码轻松搞定。
 
 <img src="./gif.gif"/>
 
