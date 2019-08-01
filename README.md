@@ -1,4 +1,5 @@
 # GridPager
+
 GridPager组件，几行代码即可实现类似美团APP的多分类分页显示，链式调用，极简接入。
 
 <img src="./gif.gif"/>
