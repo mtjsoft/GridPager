@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/darker_gray"
+    tools:context=".MainActivity">
+
+    <cn.mtjsoft.www.gridpager.GridPager
+        android:id="@+id/gridpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:verticalSpacing="10dp"
+        app:img_width="50dp"
+        app:img_height="50dp"
+        app:text_color="@color/colorPrimary"
+        app:text_size="10sp"
+        app:imgtext_margin="10dp"
+        app:row_count="2"
+        app:column_count="4"
+        app:point_width="15dp"
+        app:point_height="2dp"
+        app:point_is_circle="false"
+        app:point_margin="3dp"
+        app:point_normal_color="@color/colorPrimary"
+        app:point_select_color="@color/colorAccent">
+    </cn.mtjsoft.www.gridpager.GridPager>
+
+</LinearLayout>
