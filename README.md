@@ -1,11 +1,19 @@
+
 # GridPager
 
 GridPager组件：ViewPager结合GridView，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
 
-<img src="./gif.gif"/>
+  ① 应用的首页经常需要用到这样的分类多页展示的效果，还有些消息输入框需要这样想过的表情面板。
+  
+  ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的简洁接入使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，GridPager组件就诞生了。
 
-# 1、Add it in your root build.gradle at the end of repositories:
+#  先看效果
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190801185758323.gif)
+  
+
+#  如何使用
+# 1、在根目录 build.gradle 添加:
 
 ```
 allprojects {
@@ -16,14 +24,14 @@ allprojects {
 	}
 ```
 
-# 2、Add the dependency
+# 2、在app项目下的build.gradle中添加：
 
 ```
 dependencies {
 	        implementation 'com.github.mtjsoft:GridPager:v1.0.0'
 	}
 ```
-# 3、xml
+# 3、在需要使用的布局xml中添加GridPager组件
 
 ```
 <cn.mtjsoft.www.gridpager.GridPager
@@ -46,7 +54,7 @@ dependencies {
         app:point_select_color="@color/colorAccent">
     </cn.mtjsoft.www.gridpager.GridPager>
 ```
-# 4、属性说明
+# 4、GridPager组件的属性说明
 
 属性  | 说明
 ------------- | -------------
@@ -143,3 +151,7 @@ GridPager gridPager = findViewById(R.id.gridpager);
                 })
                 .show();
 ```
+## 实现就是如此简单
+
+**本人公众号，关注一波，共同交流吧。**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2019012509485178.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Nzc5MDgz,size_16,color_FFFFFF,t_70)
