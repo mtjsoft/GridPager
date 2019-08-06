@@ -3,10 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/darker_gray"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="默认指示器样式"
+        android:textColor="@color/colorAccent"
+        android:padding="10dp"/>
     <cn.mtjsoft.www.gridpager.GridPager
         android:id="@+id/gridpager"
         android:layout_width="match_parent"
@@ -24,7 +31,59 @@
         app:point_is_circle="false"
         app:point_margin="3dp"
         app:point_normal_color="@color/colorPrimary"
-        app:point_select_color="@color/colorAccent">
-    </cn.mtjsoft.www.gridpager.GridPager>
+        app:point_select_color="@color/colorAccent"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义指示器样式"
+        android:textColor="@color/colorAccent"
+        android:padding="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white">
+
+        <cn.mtjsoft.www.gridpager.GridPager
+            android:id="@+id/gridpager2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:show_default_indicator="false" />
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:dotsColor="@color/colorPrimary"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="16dp"
+            app:dotsSpacing="4dp"
+            app:dotsWidthFactor="2.5"
+            app:progressMode="false"
+            app:selectedDotColor="@color/colorAccent"
+            />
+
+        <com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator
+            android:id="@+id/spring_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:dotsColor="@color/colorPrimary"
+            />
+
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/worm_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:dotsColor="@color/colorPrimary">
+        </com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator>
+    </LinearLayout>
 
 </LinearLayout>

@@ -10,12 +10,14 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"></cn.mtjsoft.www.gridpager.view.AtMostViewPager>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
 
     <cn.mtjsoft.www.gridpager.view.AndSelectCircleView
         android:id="@+id/scv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="8dp"></cn.mtjsoft.www.gridpager.view.AndSelectCircleView>
+        android:layout_marginBottom="10dp"/>
+
 </LinearLayout>

@@ -46,6 +46,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     private int mSelectColor = Color.RED;
     // 是否是圆形的指示点
     private boolean mIsCircle = true;
+    //是否显示默认指示器
+    private boolean mIsShowDefaultIndicator = true;
 
     /**
      * GridPager
@@ -104,16 +106,17 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
             return;
         }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.GridPager);
-        verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.GridPager_verticalSpacing, AndDensityUtils.dip2px(getContext(), 10));
-        imageWidth = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_width, AndDensityUtils.dip2px(getContext(), 50));
-        imageHeight = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_height, AndDensityUtils.dip2px(getContext(), 50));
+        verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.GridPager_verticalSpacing,0);
+        imageWidth = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_width, 0);
+        imageHeight = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_height, 0);
         textColor = typedArray.getColor(R.styleable.GridPager_text_color, Color.BLACK);
-        textSize = typedArray.getDimensionPixelSize(R.styleable.GridPager_text_size, AndDensityUtils.sp2px(getContext(), 12));
-        textImgMargin = typedArray.getDimensionPixelSize(R.styleable.GridPager_imgtext_margin, AndDensityUtils.dip2px(getContext(), 5));
+        textSize = typedArray.getDimensionPixelSize(R.styleable.GridPager_text_size, 0);
+        textImgMargin = typedArray.getDimensionPixelSize(R.styleable.GridPager_imgtext_margin, 0);
         rowCount = typedArray.getInt(R.styleable.GridPager_row_count, 2);
         columnCount = typedArray.getInt(R.styleable.GridPager_column_count, 4);
         pageSize = rowCount * columnCount;
         // 指示点
+        mIsShowDefaultIndicator = typedArray.getBoolean(R.styleable.GridPager_show_default_indicator, true);
         mChildWidth = typedArray.getDimensionPixelSize(R.styleable.GridPager_point_width, AndDensityUtils.dip2px(getContext(), 8));
         mChildHeight = typedArray.getDimensionPixelSize(R.styleable.GridPager_point_height, AndDensityUtils.dip2px(getContext(), 8));
         mChildMargin = typedArray.getDimensionPixelSize(R.styleable.GridPager_point_margin, AndDensityUtils.dip2px(getContext(), 8));
@@ -229,6 +232,16 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     }
 
     /**
+     * 设置显示默认指示器
+     *
+     * @param showDefaultIndicator
+     * @return
+     */
+    public GridPager showDefaultIndicator(boolean showDefaultIndicator) {
+        this.mIsShowDefaultIndicator = showDefaultIndicator;
+        return this;
+    }
+    /**
      * 设置指示器的宽度
      *
      * @param mChildWidth
@@ -331,22 +344,27 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         viewPager.setAdapter(new GridAdapter());
         viewPager.addOnPageChangeListener(this);
         // 设置指示点
-        final int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
-        andSelectCircleView.setmChildWidth(mChildWidth)
-                .setmChildHeight(mChildHeight)
-                .setmChildMargin(mChildMargin)
-                .setmIsCircle(mIsCircle)
-                .setmNormalColor(mNormalColor)
-                .setmSelectColor(mSelectColor)
-                .setPointCheckedChangeListener(new AndSelectCircleView.PointCheckedChangeListener() {
-                    @Override
-                    public void checkedChange(int position) {
-                        if (position >= 0 && position < page) {
-                            viewPager.setCurrentItem(position);
+        if(mIsShowDefaultIndicator){
+            andSelectCircleView.setVisibility(View.VISIBLE);
+            final int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
+            andSelectCircleView.setmChildWidth(mChildWidth)
+                    .setmChildHeight(mChildHeight)
+                    .setmChildMargin(mChildMargin)
+                    .setmIsCircle(mIsCircle)
+                    .setmNormalColor(mNormalColor)
+                    .setmSelectColor(mSelectColor)
+                    .setPointCheckedChangeListener(new AndSelectCircleView.PointCheckedChangeListener() {
+                        @Override
+                        public void checkedChange(int position) {
+                            if (position >= 0 && position < page) {
+                                viewPager.setCurrentItem(position);
+                            }
                         }
-                    }
-                })
-                .addChild(page);
+                    })
+                    .addChild(page);
+        }else{
+            andSelectCircleView.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -363,12 +381,18 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
 
     @Override
     public void onPageSelected(int i) {
-        andSelectCircleView.setSelectPosition(i);
+        if(mIsShowDefaultIndicator && andSelectCircleView.getVisibility() == View.VISIBLE){
+            andSelectCircleView.setSelectPosition(i);
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    public ViewPager getPageAdapter() {
+        return viewPager;
     }
 
     /**
@@ -419,7 +443,11 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
             this.context = context;
             pageindex = position;
             inflater = LayoutInflater.from(context);
-            imageParams = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+            if(imageWidth > 0 && imageHeight > 0){
+                imageParams = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+            }else{
+                imageParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            }
         }
 
         @Override
@@ -439,7 +467,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.gridpager_item, parent, false);
                 holder = new ViewHolder();
@@ -448,15 +476,21 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
                 holder.iconNameTextView = convertView.findViewById(R.id.item_text);
                 holder.iconImageView.setLayoutParams(imageParams);
                 LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.iconNameTextView.getLayoutParams();
-                textParams.topMargin = textImgMargin;
+                if(textImgMargin > 0){
+                    textParams.topMargin = textImgMargin;
+                }
                 holder.iconNameTextView.setLayoutParams(textParams);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             final int pos = position + pageindex * pageSize;
-            holder.iconNameTextView.setTextColor(textColor);
-            holder.iconNameTextView.setTextSize(textSize);
+            if(textColor > 0){
+                holder.iconNameTextView.setTextColor(textColor);
+            }
+            if(textSize > 0){
+                holder.iconNameTextView.setTextSize(textSize);
+            }
             // 绑定数据
             if (itemBindDataListener != null) {
                 itemBindDataListener.BindData(holder.iconImageView, holder.iconNameTextView, pos);

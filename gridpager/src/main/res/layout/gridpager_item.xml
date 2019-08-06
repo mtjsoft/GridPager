@@ -9,16 +9,18 @@
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginTop="6dp"
         android:text="@string/app_name"
         android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        android:textSize="13sp" />
 </LinearLayout>

@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.SpringDotsIndicator;
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
+
 import cn.mtjsoft.www.gridpager.GridPager;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
 
         GridPager gridPager = findViewById(R.id.gridpager);
+        GridPager gridPager2 = findViewById(R.id.gridpager2);
 
         gridPager
                 // 设置item的纵向间距
@@ -74,8 +79,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+        //最简单的初始化
+        gridPager2
+                .setDataAllCount(titles.length)
+                .setItemBindDataListener(new GridPager.ItemBindDataListener() {
+                    @Override
+                    public void BindData(ImageView imageView, TextView textView, int position) {
+                        // 自己进行数据的绑定，灵活度更高，不受任何限制
+                        imageView.setImageResource(iconS[position]);
+                        textView.setText(titles[position]);
+                    }
+                })
+                // Item点击
+                .setGridItemClickListener(new GridPager.GridItemClickListener() {
+                    @Override
+                    public void click(int position) {
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position], Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+        //添加自定义的指示器
+        DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
+        SpringDotsIndicator springDotsIndicator = findViewById(R.id.spring_dots_indicator);
+        WormDotsIndicator wormDotsIndicator = findViewById(R.id.worm_dots_indicator);
+        dotsIndicator.setViewPager(gridPager2.getPageAdapter());
+        springDotsIndicator.setViewPager(gridPager2.getPageAdapter());
+        wormDotsIndicator.setViewPager(gridPager2.getPageAdapter());
     }
-
     /**
      * 初始化数据源，这里使用本地图标作为示例
      */

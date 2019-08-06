@@ -18,6 +18,8 @@
         <attr name="row_count" format="integer"></attr>
         <!--列数-->
         <attr name="column_count" format="integer"></attr>
+        <!-- 是否显示默认指示器-->
+        <attr name="show_default_indicator" format="boolean"></attr>
 
         <!--指示点配置-->
         <!-- 设置子控件显示的宽度 -->
