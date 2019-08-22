@@ -28,7 +28,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.0.0'
+	        implementation 'com.github.mtjsoft:GridPager:v1.1.0'
 	}
 ```
 # 3、在需要使用的布局xml中添加GridPager组件
