@@ -112,7 +112,6 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         textImgMargin = typedArray.getDimensionPixelSize(R.styleable.GridPager_imgtext_margin, AndDensityUtils.dip2px(getContext(), 5));
         rowCount = typedArray.getInt(R.styleable.GridPager_row_count, 2);
         columnCount = typedArray.getInt(R.styleable.GridPager_column_count, 4);
-        pageSize = rowCount * columnCount;
         // 指示点
         mChildWidth = typedArray.getDimensionPixelSize(R.styleable.GridPager_point_width, AndDensityUtils.dip2px(getContext(), 8));
         mChildHeight = typedArray.getDimensionPixelSize(R.styleable.GridPager_point_height, AndDensityUtils.dip2px(getContext(), 8));
@@ -321,6 +320,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         if (dataAllCount == 0) {
             return;
         }
+        pageSize = rowCount * columnCount;
         // 设置viewPager
         if (verticalSpacing > 0) {
             LinearLayout.LayoutParams viewPagerParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
