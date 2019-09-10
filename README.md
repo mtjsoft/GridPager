@@ -51,27 +51,37 @@ dependencies {
         app:point_is_circle="false"
         app:point_margin="3dp"
         app:point_normal_color="@color/colorPrimary"
-        app:point_select_color="@color/colorAccent">
+        app:point_select_color="@color/colorAccent"
+	app:point_is_show="true"
+        app:point_margin_page="10dp"
+        app:point_margin_bottom="10dp">
     </cn.mtjsoft.www.gridpager.GridPager>
 ```
 # 4、GridPager组件的属性说明
 
 属性  | 说明
 ------------- | -------------
-verticalSpacing  | 设置item的纵向间距 默认10dp
-img_width  | 设置图片宽度 默认50dp
-img_height  | 设置图片高度 默认50dp
+verticalSpacing  | 设置item的纵向间距 默认10dp 单位dp
+img_width  | 设置图片宽度 默认50dp 单位dp
+img_height  | 设置图片高度 默认50dp 单位dp
 text_color  | 设置文字颜色 默认黑色
-imgtext_margin  | 设置文字与图片的间距 默认5dp
-text_size  | 设置文字大小 默认10sp
+imgtext_margin  | 设置文字与图片的间距 默认5dp 单位dp
+text_size  | 设置文字大小 默认10sp 单位sp
 row_count  | 设置每页行数 默认2
 column_count  | 设置每页列数 默认4
-point_width  | 设置指示器的item宽度 默认8dp
-point_height  | 设置指示器的item高度 默认8dp
-point_margin  | 设置指示器的item的间距 默认8dp
+point_width  | 设置指示器的item宽度 默认8dp 单位dp
+point_height  | 设置指示器的item高度 默认8dp 单位dp
+point_margin  | 设置指示器的item的间距 默认8dp 单位dp
 point_normal_color  | 指示器item未选中的颜色 默认灰色
 point_select_color  | 指示器item选中的颜色 默认红色
 point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高的最小值
+
+1.2.0 新增属性  | 说明
+------------- | -------------
+point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
+point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
+point_is_show  | 是否展示指示器,默认true展示
+
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
 
@@ -121,6 +131,12 @@ GridPager gridPager = findViewById(R.id.gridpager);
                 .setRowCount(2)
                 // 设置每页列数
                 .setColumnCount(4)
+		// 设置是否显示指示器
+                .setPointIsShow(true)
+                // 设置指示器与page的间距
+                .setPointMarginPage(10)
+                // 设置指示器与底部的间距
+                .setPointMarginBottom(10)
                 // 设置指示器的item宽度
                 .setPointChildWidth(15)
                 // 设置指示器的item高度
