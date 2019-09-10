@@ -3,6 +3,7 @@ package cn.mtjsoft.www.gridviewpager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,39 +25,45 @@ public class MainActivity extends AppCompatActivity {
 
         initData();
 
-        GridPager gridPager = findViewById(R.id.gridpager);
+        final GridPager gridPager = findViewById(R.id.gridpager);
 
         gridPager
-                // 设置item的纵向间距
-                .setVerticalSpacing(20)
-                // 设置图片宽度
-                .setImageWidth(80)
-                // 设置图片高度
-                .setImageHeight(80)
-                // 设置文字与图片的间距
-                .setTextImgMargin(10)
-                // 设置文字颜色
-                .setTextColor(ContextCompat.getColor(getBaseContext(),R.color.colorPrimaryDark))
-                // 设置文字大小
-                .setTextSize(12)
-                // 设置每页行数
-                .setRowCount(2)
-                // 设置每页列数
-                .setColumnCount(4)
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
-                // 设置指示器的item宽度
-                .setPointChildWidth(15)
-                // 设置指示器的item高度
-                .setPointChildHeight(3)
-                // 设置指示器的item的间距
-                .setPointChildMargin(5)
-                // 指示器的item是否为圆形，默认圆形直径取宽高的最小值
-                .setPointIsCircle(false)
-                // 指示器item未选中的颜色
-                .setPointNormalColor(ContextCompat.getColor(getBaseContext(),R.color.colorPrimary))
-                // 指示器item选中的颜色
-                .setPointSelectColor(ContextCompat.getColor(getBaseContext(),R.color.colorAccent))
+//                // 设置item的纵向间距
+//                .setVerticalSpacing(10)
+//                // 设置图片宽度
+//                .setImageWidth(50)
+//                // 设置图片高度
+//                .setImageHeight(50)
+//                // 设置文字与图片的间距
+//                .setTextImgMargin(5)
+//                // 设置文字颜色
+//                .setTextColor(ContextCompat.getColor(getBaseContext(),R.color.colorAccent))
+//                // 设置文字大小
+//                .setTextSize(16)
+//                // 设置每页行数
+//                .setRowCount(2)
+//                // 设置每页列数
+//                .setColumnCount(5)
+//                // 设置是否显示指示器
+//                .setPointIsShow(false)
+//                // 设置指示器与page的间距
+//                .setPointMarginPage(30)
+//                // 设置指示器与底部的间距
+//                .setPointMarginBottom(30)
+//                // 设置指示器的item宽度
+//                .setPointChildWidth(15)
+//                // 设置指示器的item高度
+//                .setPointChildHeight(2)
+//                // 设置指示器的item的间距
+//                .setPointChildMargin(2)
+//                // 指示器的item是否为圆形，默认圆形直径取宽高的最小值
+//                .setPointIsCircle(false)
+//                // 指示器item未选中的颜色
+//                .setPointNormalColor(ContextCompat.getColor(getBaseContext(),R.color.colorPrimary))
+//                // 指示器item选中的颜色
+//                .setPointSelectColor(ContextCompat.getColor(getBaseContext(),R.color.colorAccent))
                 // 数据绑定
                 .setItemBindDataListener(new GridPager.ItemBindDataListener() {
                     @Override
@@ -74,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+
+        ImageView test = findViewById(R.id.iv_test);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gridPager.show();
+            }
+        });
     }
 
     /**

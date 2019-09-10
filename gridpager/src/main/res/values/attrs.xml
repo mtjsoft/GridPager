@@ -32,6 +32,12 @@
         <attr name="point_select_color" format="color|reference"></attr>
         <!-- 子空间是否显示为圆形，默认为true，此时控件的大小为宽和高中的最小值 -->
         <attr name="point_is_circle" format="boolean"></attr>
+        <!-- 设置指示器与page的间距 -->
+        <attr name="point_margin_page" format="dimension"></attr>
+        <!-- 设置指示器与底部的间距 -->
+        <attr name="point_margin_bottom" format="dimension"></attr>
+        <!-- 是否展示指示器 -->
+        <attr name="point_is_show" format="boolean"></attr>
     </declare-styleable>
 
     <declare-styleable name="AndSelectCircleView">

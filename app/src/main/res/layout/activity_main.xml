@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/darker_gray"
     tools:context=".MainActivity">
@@ -15,16 +16,25 @@
         app:img_width="50dp"
         app:img_height="50dp"
         app:text_color="@color/colorPrimary"
-        app:text_size="10sp"
+        app:text_size="14sp"
         app:imgtext_margin="10dp"
         app:row_count="2"
         app:column_count="4"
         app:point_width="15dp"
         app:point_height="2dp"
         app:point_is_circle="false"
-        app:point_margin="3dp"
+        app:point_margin="2dp"
         app:point_normal_color="@color/colorPrimary"
-        app:point_select_color="@color/colorAccent">
+        app:point_select_color="@color/colorAccent"
+        app:point_is_show="true"
+        app:point_margin_page="10dp"
+        app:point_margin_bottom="10dp">
     </cn.mtjsoft.www.gridpager.GridPager>
 
+    <ImageView
+        android:id="@+id/iv_test"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_category_0" />
 </LinearLayout>

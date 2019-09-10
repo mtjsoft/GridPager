@@ -3,6 +3,7 @@
     android:id="@+id/gridView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:verticalSpacing="10dp"
-    android:numColumns="auto_fit">
+    android:numColumns="auto_fit"
+    android:scrollbars="none"
+    android:verticalSpacing="10dp">
 </cn.mtjsoft.www.gridpager.view.AtMostGridView>

@@ -154,13 +154,13 @@ public class AndSelectCircleView extends RadioGroup {
      */
     @SuppressWarnings("deprecation")
     public void addChild(int count) {
+        clear();
         if (count < 1) {
             throw new InvalidParameterException("count must be biger than 0");
         }
         mNormalDrawable = getSpecialDrawable(true);
         mSelectDrawable = getSpecialDrawable(false);
-        clear();
-        for (int index = 0; index < count; ++index) {
+        for (int index = 0; index < count; index++) {
             RadioButton button = new RadioButton(getContext());
             button.setId(index);
             StateListDrawable drawable = new StateListDrawable();
@@ -169,13 +169,15 @@ public class AndSelectCircleView extends RadioGroup {
             button.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
             button.setBackgroundDrawable(drawable);
             LayoutParams params = new LayoutParams(mChildWidth, mChildHeight);
-            if (index != 0) {
+            if (index == 0) {
+                button.setChecked(true);
+                params.leftMargin = 0;
+            } else {
+                button.setChecked(false);
                 params.leftMargin = mChildMargin;
             }
-            addView(button, params);
+            addView(button, index, params);
         }
-        RadioButton button = (RadioButton) getChildAt(0);
-        button.setChecked(true);
         setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -192,9 +194,10 @@ public class AndSelectCircleView extends RadioGroup {
      * @param position
      */
     public void setSelectPosition(int position) {
-
-        RadioButton button = (RadioButton) getChildAt(position);
-        button.setChecked(true);
+        if (position < getChildCount()) {
+            RadioButton button = (RadioButton) getChildAt(position);
+            button.setChecked(true);
+        }
     }
 
     /**
