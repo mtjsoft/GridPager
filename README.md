@@ -170,4 +170,8 @@ GridPager gridPager = findViewById(R.id.gridpager);
 ## 实现就是如此简单
 
 **本人公众号，关注一波，共同交流吧。**
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019012509485178.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Nzc5MDgz,size_16,color_FFFFFF,t_70)
+
+**也可添加我个人微信号交流，记得添加时备注一下哦**
+<img src="./wxqrcode.jpg">
