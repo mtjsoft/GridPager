@@ -2,6 +2,8 @@
 <resources>
 
     <declare-styleable name="GridPager">
+        <!--背景颜色-->
+        <attr name="background_color" format="color|reference"></attr>
         <!--竖直方向的间距-->
         <attr name="verticalSpacing" format="dimension"></attr>
         <!--icon 宽度-->

@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
+//                // 设置背景色，默认白色
+//                .setGridPagerBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.colorBg))
 //                // 设置item的纵向间距
 //                .setVerticalSpacing(10)
 //                // 设置图片宽度
@@ -81,14 +83,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
-
-        ImageView test = findViewById(R.id.iv_test);
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gridPager.show();
-            }
-        });
     }
 
     /**

@@ -29,6 +29,8 @@ import cn.mtjsoft.www.gridpager.view.AtMostViewPager;
 @SuppressLint("Recycle")
 public class GridPager extends FrameLayout implements ViewPager.OnPageChangeListener {
 
+    //
+    private LinearLayout linearLayout;
     // ViewPager
     private AtMostViewPager viewPager;
     /**
@@ -77,7 +79,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     private int pageSize = 8;
     // 数据总数
     private int dataAllCount = 0;
-
+    // 背景颜色
+    private int backgroundColor = Color.WHITE;
     /**
      * 监听
      */
@@ -101,6 +104,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     private void initView(Context context, AttributeSet attrs) {
         handleTypedArray(context, attrs);
         View view = View.inflate(getContext(), R.layout.gridpager_layout, null);
+        linearLayout = view.findViewById(R.id.ll_layout);
         viewPager = view.findViewById(R.id.viewpager);
         andSelectCircleView = view.findViewById(R.id.scv);
         addView(view);
@@ -111,6 +115,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
             return;
         }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.GridPager);
+        backgroundColor = typedArray.getColor(R.styleable.GridPager_background_color, Color.WHITE);
         verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.GridPager_verticalSpacing, AndDensityUtils.dip2px(getContext(), 10));
         imageWidth = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_width, AndDensityUtils.dip2px(getContext(), 50));
         imageHeight = typedArray.getDimensionPixelSize(R.styleable.GridPager_img_height, AndDensityUtils.dip2px(getContext(), 50));
@@ -212,6 +217,17 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
      */
     public GridPager setTextColor(int textColor) {
         this.textColor = textColor;
+        return this;
+    }
+
+    /**
+     * 设置 背景颜色
+     *
+     * @param backgroundColor
+     * @return
+     */
+    public GridPager setGridPagerBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
         return this;
     }
 
@@ -363,6 +379,10 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         if (dataAllCount == 0) {
             return;
         }
+        linearLayout.setBackgroundColor(backgroundColor);
+        viewPager.setBackgroundColor(backgroundColor);
+        andSelectCircleView.setBackgroundColor(backgroundColor);
+        setBackgroundColor(backgroundColor);
         pageSize = rowCount * columnCount;
         // 设置viewPager
         if (verticalSpacing > 0) {
@@ -505,6 +525,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
                 LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.iconNameTextView.getLayoutParams();
                 textParams.topMargin = textImgMargin;
                 holder.iconNameTextView.setLayoutParams(textParams);
+                holder.linearLayout.setBackgroundColor(backgroundColor);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();

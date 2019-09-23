@@ -28,13 +28,7 @@
         app:point_select_color="@color/colorAccent"
         app:point_is_show="true"
         app:point_margin_page="10dp"
-        app:point_margin_bottom="10dp">
+        app:point_margin_bottom="10dp"
+        app:background_color="@color/colorBg">
     </cn.mtjsoft.www.gridpager.GridPager>
-
-    <ImageView
-        android:id="@+id/iv_test"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:src="@mipmap/ic_category_0" />
 </LinearLayout>
