@@ -28,9 +28,12 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.2.0'
+	        implementation 'com.github.mtjsoft:GridPager:v1.2.1'
 	}
 ```
+或者[点击下载GridPager-v1.2.1.aar](https://jitpack.io/com/github/mtjsoft/GridPager/v1.2.1/GridPager-v1.2.1.aar)
+
+
 # 3、在需要使用的布局xml中添加GridPager组件
 
 ```
@@ -54,10 +57,11 @@ dependencies {
         app:point_select_color="@color/colorAccent"
 	app:point_is_show="true"
         app:point_margin_page="10dp"
-        app:point_margin_bottom="10dp">
+        app:point_margin_bottom="10dp"
+	app:background_color="@color/colorBg">
     </cn.mtjsoft.www.gridpager.GridPager>
 ```
-# 4、GridPager组件的属性说明
+# 4、GridPager组件的版本及属性说明
 
 属性  | 说明
 ------------- | -------------
@@ -81,6 +85,10 @@ point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高
 point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
 point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
 point_is_show  | 是否展示指示器,默认true展示
+
+1.2.1 新增属性  | 说明
+------------- | -------------
+background_color  | 设置组件背景颜色，默认白色
 
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
@@ -115,6 +123,8 @@ GridPager gridPager = findViewById(R.id.gridpager);
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
+		// 设置背景色，默认白色
+                .setGridPagerBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.colorBg))
                 // 设置item的纵向间距
                 .setVerticalSpacing(20)
                 // 设置图片宽度
@@ -169,9 +179,11 @@ GridPager gridPager = findViewById(R.id.gridpager);
 ```
 ## 实现就是如此简单
 
-**本人公众号，关注一波，共同交流吧。**
+**添加我个人微信号交流，记得添加时备注一下哦**
+
+<img src="./wxqrcode.jpg">
+
+**本人公众号，也可关注一波，共同交流吧。**
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2019012509485178.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Nzc5MDgz,size_16,color_FFFFFF,t_70)
 
-**也可添加我个人微信号交流，记得添加时备注一下哦**
-<img src="./wxqrcode.jpg">
