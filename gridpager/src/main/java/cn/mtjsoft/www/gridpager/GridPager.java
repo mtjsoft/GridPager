@@ -81,6 +81,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     private int dataAllCount = 0;
     // 背景颜色
     private int backgroundColor = Color.WHITE;
+    // 设置固定高度
+    private int viewPageHeight = 0;
     /**
      * 监听
      */
@@ -353,6 +355,16 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     }
 
     /**
+     * 设置page的固定高度，防止在recycleview等列表复用中不显示
+     *
+     * @param viewPageHeight
+     */
+    public GridPager setViewPageHeight(int viewPageHeight) {
+        this.viewPageHeight = AndDensityUtils.dip2px(getContext(), viewPageHeight);
+        return this;
+    }
+
+    /**
      * 设置 Item 点击监听
      *
      * @param gridItemClickListener
@@ -385,12 +397,16 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         setBackgroundColor(backgroundColor);
         pageSize = rowCount * columnCount;
         // 设置viewPager
+        LinearLayout.LayoutParams viewPagerParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
         if (verticalSpacing > 0) {
-            LinearLayout.LayoutParams viewPagerParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
             viewPagerParams.topMargin = verticalSpacing;
             viewPagerParams.bottomMargin = verticalSpacing;
-            viewPager.setLayoutParams(viewPagerParams);
         }
+        if (viewPageHeight > 0) {
+            viewPager.setViewPageHeight(viewPageHeight);
+            viewPagerParams.height = viewPageHeight;
+        }
+        viewPager.setLayoutParams(viewPagerParams);
         viewPager.setAdapter(new GridAdapter());
         viewPager.setCurrentItem(0);
         if (mIsShow) {
