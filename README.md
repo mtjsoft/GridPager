@@ -28,10 +28,9 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.2.1'
+	        implementation 'com.github.mtjsoft:GridPager:v1.2.2'
 	}
 ```
-或者[点击下载GridPager-v1.2.1.aar](https://jitpack.io/com/github/mtjsoft/GridPager/v1.2.1/GridPager-v1.2.1.aar)
 
 
 # 3、在需要使用的布局xml中添加GridPager组件
@@ -80,15 +79,22 @@ point_normal_color  | 指示器item未选中的颜色 默认灰色
 point_select_color  | 指示器item选中的颜色 默认红色
 point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高的最小值
 
+
 1.2.0 新增属性  | 说明
 ------------- | -------------
 point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
 point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
 point_is_show  | 是否展示指示器,默认true展示
 
+
 1.2.1 新增属性  | 说明
 ------------- | -------------
 background_color  | 设置组件背景颜色，默认白色
+
+
+1.2.2 新增方法  | 说明
+------------- | -------------
+setViewPageHeight(152)  | 设置ViewPager固定高度，单位dp。防止在RecycleView多布局列表中，会出现空白的问题。
 
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
