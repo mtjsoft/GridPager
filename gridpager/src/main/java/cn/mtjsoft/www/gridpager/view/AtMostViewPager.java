@@ -12,8 +12,6 @@ import android.view.View;
  */
 public class AtMostViewPager extends ViewPager {
 
-    private int viewPageHeight = 0;
-
     public AtMostViewPager(@NonNull Context context) {
         this(context, null);
     }
@@ -22,23 +20,19 @@ public class AtMostViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    public void setViewPageHeight(int viewPageHeight) {
-        this.viewPageHeight = viewPageHeight;
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (viewPageHeight == 0) {
-            int height = 0;
-            for (int i = 0; i < getChildCount(); i++) {
-                View child = getChildAt(i);
-                child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                int h = child.getMeasuredHeight();
-                if (h > height)
-                    height = h;
-            }
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        }
+        // 已废弃
+//        int height = 0;
+//        for (int i = 0; i < getChildCount(); i++) {
+//            View child = getChildAt(i);
+//            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+//            int h = child.getMeasuredHeight();
+//            if (h > height) {
+//                height = h;
+//            }
+//        }
+//        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

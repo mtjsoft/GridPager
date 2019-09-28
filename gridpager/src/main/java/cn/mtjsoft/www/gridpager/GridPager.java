@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -356,9 +358,14 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
 
     /**
      * 设置page的固定高度，防止在recycleview等列表复用中不显示
+     * <p>
+     * 此方法已标记废弃，请尽量不要再使用
+     * <p>
+     * 代码以优化根据设置的参数，自动计算高度。如果计算有偏差，则可以使用此方法设置固定高度
      *
      * @param viewPageHeight
      */
+    @Deprecated
     public GridPager setViewPageHeight(int viewPageHeight) {
         this.viewPageHeight = AndDensityUtils.dip2px(getContext(), viewPageHeight);
         return this;
@@ -391,20 +398,26 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         if (dataAllCount == 0) {
             return;
         }
+        setBackgroundColor(backgroundColor);
         linearLayout.setBackgroundColor(backgroundColor);
         viewPager.setBackgroundColor(backgroundColor);
         andSelectCircleView.setBackgroundColor(backgroundColor);
-        setBackgroundColor(backgroundColor);
         pageSize = rowCount * columnCount;
         // 设置viewPager
-        LinearLayout.LayoutParams viewPagerParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
-        if (verticalSpacing > 0) {
+        final LinearLayout.LayoutParams viewPagerParams = (LinearLayout.LayoutParams) viewPager.getLayoutParams();
+        if (verticalSpacing >= 0) {
             viewPagerParams.topMargin = verticalSpacing;
-            viewPagerParams.bottomMargin = verticalSpacing;
+            if (!mIsShow) {
+                // 如果不显示指示器时，就设置viewPager的下边距。
+                viewPagerParams.bottomMargin = verticalSpacing;
+            }
         }
         if (viewPageHeight > 0) {
-            viewPager.setViewPageHeight(viewPageHeight);
+            // 设置固定高度
             viewPagerParams.height = viewPageHeight;
+        } else {
+            // 根据设置的高度，计算出viewPager的自适应高度，不再设置固定高度
+            viewPagerParams.height = (int) ((imageHeight + textImgMargin + textSize * 1.13) * rowCount + (rowCount - 1) * verticalSpacing);
         }
         viewPager.setLayoutParams(viewPagerParams);
         viewPager.setAdapter(new GridAdapter());
@@ -538,6 +551,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
                 holder.iconImageView = convertView.findViewById(R.id.item_image);
                 holder.iconNameTextView = convertView.findViewById(R.id.item_text);
                 holder.iconImageView.setLayoutParams(imageParams);
+                holder.iconNameTextView.setTextColor(textColor);
+                holder.iconNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
                 LinearLayout.LayoutParams textParams = (LinearLayout.LayoutParams) holder.iconNameTextView.getLayoutParams();
                 textParams.topMargin = textImgMargin;
                 holder.iconNameTextView.setLayoutParams(textParams);
@@ -547,8 +562,6 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
                 holder = (ViewHolder) convertView.getTag();
             }
             final int pos = position + pageindex * pageSize;
-            holder.iconNameTextView.setTextColor(textColor);
-            holder.iconNameTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
             // 绑定数据
             if (itemBindDataListener != null) {
                 itemBindDataListener.BindData(holder.iconImageView, holder.iconNameTextView, pos);

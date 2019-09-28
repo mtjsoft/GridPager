@@ -17,8 +17,10 @@
         android:id="@+id/item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:includeFontPadding="false"
         android:layout_marginTop="5dp"
         android:text="@string/app_name"
+        android:padding="-10dp"
         android:textColor="@android:color/black"
         android:textSize="10sp" />
 </LinearLayout>

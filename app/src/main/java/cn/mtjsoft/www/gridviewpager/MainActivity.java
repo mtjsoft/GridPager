@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         final GridPager gridPager = findViewById(R.id.gridpager);
 
+        //
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
