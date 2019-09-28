@@ -4,15 +4,16 @@
 GridPager组件：ViewPager结合GridView，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
 
-  ① 应用的首页经常需要用到这样的分类多页展示的效果，还有些消息输入框需要这样的表情面板。
+  ① 应用的首页经常需要用到这样的分类**多页展示**的效果，还有些消息输入框需要这样的**表情面板**。
   
-  ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的简洁接入使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，GridPager组件就诞生了。
+  ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridPager组件**就诞生了。
 
-#  先看效果
+#  GridPager组件效果
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190801185758323.gif)
-  
 
-#  如何使用
+#  如何使用GridPager组件
+
 # 1、在根目录 build.gradle 添加:
 
 ```
@@ -28,12 +29,12 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.2.2'
+	        implementation 'com.github.mtjsoft:GridPager:v1.3.0'
 	}
 ```
 
 
-# 3、在需要使用的布局xml中添加GridPager组件
+# 3、在需要使用的布局xml中添加GridPager组件，根据需要设置相关属性
 
 ```
 <cn.mtjsoft.www.gridpager.GridPager
@@ -62,7 +63,33 @@ dependencies {
 ```
 # 4、GridPager组件的版本及属性说明
 
-属性  | 说明
+V1.3.0 版本2019-9-28 20:48:57
+--------------------------
+优化自动计算高度方法。不手动设置setViewPageHeight()固定高度时，默认自动计算，自适应高度。
+
+V1.2.2 版本2019-9-27 17:47:31
+--------------------------
+1.2.2 新增方法  | 属性说明
+------------- | -------------
+setViewPageHeight(152)  | 手动设置ViewPager为固定的高度，单位dp。
+
+V1.2.1 版本2019-9-23 22:20:05
+--------------------------
+1.2.1 新增属性  | 属性说明
+------------- | -------------
+background_color  | 设置组件背景颜色，默认白色
+
+V1.2.0 版本2019-9-11 13:20:45
+--------------------------
+1.2.0 新增属性  | 属性说明
+------------- | -------------
+point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
+point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
+point_is_show  | 是否展示指示器,默认true展示
+
+V1.1.0 版本2019-8-22 16:09:55
+--------------------------
+1.1.0 属性  | 属性说明
 ------------- | -------------
 verticalSpacing  | 设置item的纵向间距 默认10dp 单位dp
 img_width  | 设置图片宽度 默认50dp 单位dp
@@ -78,23 +105,6 @@ point_margin  | 设置指示器的item的间距 默认8dp 单位dp
 point_normal_color  | 指示器item未选中的颜色 默认灰色
 point_select_color  | 指示器item选中的颜色 默认红色
 point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高的最小值
-
-
-1.2.0 新增属性  | 说明
-------------- | -------------
-point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
-point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
-point_is_show  | 是否展示指示器,默认true展示
-
-
-1.2.1 新增属性  | 说明
-------------- | -------------
-background_color  | 设置组件背景颜色，默认白色
-
-
-1.2.2 新增方法  | 说明
-------------- | -------------
-setViewPageHeight(152)  | 设置ViewPager固定高度，单位dp。防止在RecycleView多布局列表中，会出现空白的问题。
 
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
@@ -129,6 +139,8 @@ GridPager gridPager = findViewById(R.id.gridpager);
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
+		// 手动设置ViewPager为固定的高度，单位dp。（可以不设置，默认是自动计算高度）
+		//.setViewPageHeight(152)
 		// 设置背景色，默认白色
                 .setGridPagerBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.colorBg))
                 // 设置item的纵向间距
