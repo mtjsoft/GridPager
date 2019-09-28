@@ -5,25 +5,22 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cn.mtjsoft.www.gridpager.view.AndDensityUtils;
 import cn.mtjsoft.www.gridpager.view.AndSelectCircleView;
-import cn.mtjsoft.www.gridpager.view.AtMostGridView;
-import cn.mtjsoft.www.gridpager.view.AtMostViewPager;
 
 /**
  * 采用ViewPager+GridView的方式来实现美团app的首页标签效果
@@ -34,7 +31,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     //
     private LinearLayout linearLayout;
     // ViewPager
-    private AtMostViewPager viewPager;
+    private ViewPager viewPager;
     /**
      * 指示点
      */
@@ -417,7 +414,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
             viewPagerParams.height = viewPageHeight;
         } else {
             // 根据设置的高度，计算出viewPager的自适应高度，不再设置固定高度
-            viewPagerParams.height = (int) ((imageHeight + textImgMargin + textSize * 1.13) * rowCount + (rowCount - 1) * verticalSpacing);
+            viewPageHeight = (int) ((imageHeight + textImgMargin + textSize * 1.133) * rowCount + (rowCount - 1) * verticalSpacing);
+            viewPagerParams.height = viewPageHeight;
         }
         viewPager.setLayoutParams(viewPagerParams);
         viewPager.setAdapter(new GridAdapter());
@@ -493,7 +491,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            AtMostGridView atMostGridView = (AtMostGridView) View.inflate(getContext(), R.layout.gridpager_mostgridview, null);
+            GridView atMostGridView = (GridView) View.inflate(getContext(), R.layout.gridpager_mostgridview, null);
             atMostGridView.setNumColumns(columnCount);
             if (verticalSpacing > 0) {
                 atMostGridView.setVerticalSpacing(verticalSpacing);

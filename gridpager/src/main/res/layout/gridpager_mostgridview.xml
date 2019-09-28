@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.mtjsoft.www.gridpager.view.AtMostGridView xmlns:android="http://schemas.android.com/apk/res/android"
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:numColumns="auto_fit"
     android:scrollbars="none"
     android:verticalSpacing="10dp">
-</cn.mtjsoft.www.gridpager.view.AtMostGridView>
+</GridView>
