@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
+                .setGridPagersetBackgroundImage("https://huilife.api.luoyangzixun.cn/XiaoFile/index-miandan-bg.png")
+//                .setGridPagersetBackgroundResource(R.drawable.ic_launcher_background)
 //                // 设置背景色，默认白色
 //                .setGridPagerBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.colorBg))
 //                // 设置item的纵向间距

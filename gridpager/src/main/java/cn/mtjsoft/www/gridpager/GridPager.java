@@ -4,10 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import cn.mtjsoft.www.gridpager.view.AndDensityUtils;
 import cn.mtjsoft.www.gridpager.view.AndSelectCircleView;
@@ -30,6 +38,8 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
 
     //
     private LinearLayout linearLayout;
+    // 背景
+    private ImageView bgImageView;
     // ViewPager
     private ViewPager viewPager;
     /**
@@ -82,6 +92,9 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     private int backgroundColor = Color.WHITE;
     // 设置固定高度
     private int viewPageHeight = 0;
+    // 设置背景图片
+    private int backgroundImage = 0;
+
     /**
      * 监听
      */
@@ -106,6 +119,7 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
         handleTypedArray(context, attrs);
         View view = View.inflate(getContext(), R.layout.gridpager_layout, null);
         linearLayout = view.findViewById(R.id.ll_layout);
+        bgImageView = view.findViewById(R.id.iv_bg);
         viewPager = view.findViewById(R.id.viewpager);
         andSelectCircleView = view.findViewById(R.id.scv);
         addView(view);
@@ -229,6 +243,35 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
      */
     public GridPager setGridPagerBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+        return this;
+    }
+
+    /**
+     * 设置背景图片
+     *
+     * @param object
+     * @return
+     */
+    public GridPager setGridPagersetBackgroundImage(Object object) {
+        if (object != null) {
+            backgroundImage = 1;
+            bgImageView.setVisibility(VISIBLE);
+            bgImageView.setBackgroundColor(Color.WHITE);
+            RequestOptions options = new RequestOptions()
+                    .dontAnimate()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .centerCrop();
+            try {
+                Glide.with(getContext())
+                        .load(object)
+                        .thumbnail(0.5f)
+                        .apply(options)
+                        .into(bgImageView);
+            } catch (Exception e) {
+                Log.e("mtj", "glide加载失败");
+            }
+        }
         return this;
     }
 
@@ -394,6 +437,9 @@ public class GridPager extends FrameLayout implements ViewPager.OnPageChangeList
     public void show() {
         if (dataAllCount == 0) {
             return;
+        }
+        if (backgroundImage != 0) {
+            backgroundColor = Color.TRANSPARENT;
         }
         setBackgroundColor(backgroundColor);
         linearLayout.setBackgroundColor(backgroundColor);
