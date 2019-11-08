@@ -29,7 +29,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.3.1'
+	        implementation 'com.github.mtjsoft:GridPager:v1.3.2'
 	}
 ```
 
@@ -62,6 +62,13 @@ dependencies {
     </cn.mtjsoft.www.gridpager.GridPager>
 ```
 # 4、GridPager组件的版本及属性说明
+
+V1.3.2
+--------------------------
+
+新增方法  | 属性说明 | 备注
+------------- | ------------- | -------------
+setGridPagersetBackgroundImage() | 支持设置背景图片，不再是单一的背景颜色了 | 2019-11-8 17:52:08
 
 V1.3.1 
 --------------------------
@@ -146,6 +153,8 @@ GridPager gridPager = findViewById(R.id.gridpager);
         gridPager
                 // 设置数量总条数
                 .setDataAllCount(titles.length)
+		// 设置背景图片（有背景图片时，设置背景颜色无效,采用的Glide加载）
+		.setGridPagersetBackgroundImage("https://huilife.api.luoyangzixun.cn/XiaoFile/index-miandan-bg.png")
 		// 手动设置ViewPager为固定的高度，单位dp。（可以不设置，默认是自动计算高度）
 		//.setViewPageHeight(152)
 		// 设置背景色，默认白色
