@@ -7,6 +7,8 @@ GridViewPager2.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实�
   ① 应用的首页经常需要用到这样的分类**多页展示**的效果，还有些消息输入框需要这样的**表情面板**。
   
   ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridViewPager组件**就诞生了。
+  
+[1.x版本请看这里](https://github.com/mtjsoft/GridPager/README_1.x.md)
 
 #  GridViewPager组件效果
 
