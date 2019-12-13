@@ -4,5 +4,39 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="colorBg">#fff</color>
+    <color name="white">#FFFFFF</color>
+    <!-- 纯黑色 -->
+    <color name="black">#000000</color>
+    <!-- 黑色 -->
+    <color name="black_text">#333333</color>
+    <!-- 浅黑色 -->
+    <color name="black_little_text">#646464</color>
+    <!-- 灰色 -->
+    <color name="text_no_checked">#A6AAAD</color>
+    <color name="gray_text">#9F9F9F</color>
+    <color name="gray">#CDCDCD</color>
+    <!-- 浅灰 -->
+    <color name="gray_hint_text">#F8B9C0</color>
+    <!-- 背景颜色 -->
+    <color name="background">#F5F5F5</color>
+    <color name="line_color">#80cccccc</color>
+    <!-- 黑色，相对亮一点 -->
+    <color name="black_light">#151A15</color>
+    <color name="hh_select_photo_bottom">#EE3A3E3C</color>
+    <color name="hh_select_photo_arrow">#929392</color>
+    <color name="hh_select_photo_type_window_bg">#cc000000</color>
+    <color name="black_dim">#3E403E</color>
+    <!-- 半透明 黑 -->
+    <color name="half_transparent">#32323232</color>
+    <!-- 半透明 黑 -->
+    <color name="half_black">#60000000</color>
+    <!-- 全透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 弹出框线的颜色 -->
+    <color name="check_code_line">#DBD9D8</color>
+    <!-- 固定颜色结束 -->
+    <!-- 版本更新开始 -->
+    <color name="version_white_gray">#D6D6D6</color>
+    <!-- 白色（有一定透明度） -->
+    <color name="version_white_low">#eeffffff</color>
 </resources>

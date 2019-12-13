@@ -35,4 +35,11 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="gridviewpager_recycleview" />
+      </set>
+    </option>
+  </component>
 </project>

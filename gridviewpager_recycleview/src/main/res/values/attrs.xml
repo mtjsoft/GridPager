@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="GridViewPager">
+        <!--下间距-->
+        <attr name="pager_MarginTop" format="dimension"></attr>
+        <!--上间距-->
+        <attr name="pager_MarginBottom" format="dimension"></attr>
+        <!--背景颜色-->
+        <attr name="background_color" format="color|reference"></attr>
+        <!--竖直方向的间距-->
+        <attr name="verticalSpacing" format="dimension"></attr>
+        <!--icon 宽度-->
+        <attr name="img_width" format="dimension" />
+        <!--icon 高度-->
+        <attr name="img_height" format="dimension"></attr>
+        <!--文字颜色-->
+        <attr name="text_color" format="color|reference"></attr>
+        <!--文字大小-->
+        <attr name="text_size" format="dimension"></attr>
+        <!--文字与icon的间距-->
+        <attr name="imgtext_margin" format="dimension"></attr>
+        <!--行数-->
+        <attr name="row_count" format="integer"></attr>
+        <!--列数-->
+        <attr name="column_count" format="integer"></attr>
+
+        <!--指示点配置-->
+        <!-- 设置子控件显示的宽度 -->
+        <attr name="point_width" format="dimension" />
+        <!-- 设置子控件显示的高度 -->
+        <attr name="point_height" format="dimension"></attr>
+        <!-- 设置子控件之间的间距 -->
+        <attr name="point_margin" format="dimension"></attr>
+        <!-- 正常情况下显示的颜色 -->
+        <attr name="point_normal_color" format="color|reference"></attr>
+        <!-- 选中的时候显示的颜色 -->
+        <attr name="point_select_color" format="color|reference"></attr>
+        <!-- 子空间是否显示为圆形，默认为true，此时控件的大小为宽和高中的最小值 -->
+        <attr name="point_is_circle" format="boolean"></attr>
+        <!-- 设置指示器与page的间距 -->
+        <attr name="point_margin_page" format="dimension"></attr>
+        <!-- 设置指示器与底部的间距 -->
+        <attr name="point_margin_bottom" format="dimension"></attr>
+        <!-- 是否展示指示器 -->
+        <attr name="point_is_show" format="boolean"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="AndSelectCircleView">
+        <!-- 设置子控件显示的宽度 -->
+        <attr name="child_width" format="dimension" />
+        <!-- 设置子控件显示的高度 -->
+        <attr name="child_height" format="dimension"></attr>
+        <!-- 设置子控件之间的间距 -->
+        <attr name="child_margin" format="dimension"></attr>
+        <!-- 子空间是否显示为圆形，默认为true，此时控件的大小为宽和高中的最小值 -->
+        <attr name="is_circle" format="boolean"></attr>
+        <!-- 正常情况下显示的颜色 -->
+        <attr name="normal_color" format="color|reference"></attr>
+        <!-- 选中的时候显示的颜色 -->
+        <attr name="select_color" format="color|reference"></attr>
+    </declare-styleable>
+</resources>

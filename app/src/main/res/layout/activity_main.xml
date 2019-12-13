@@ -8,15 +8,17 @@
     android:background="@android:color/darker_gray"
     tools:context=".MainActivity">
 
-    <cn.mtjsoft.www.gridpager.GridPager
-        android:id="@+id/gridpager"
+    <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+        android:id="@+id/gridviewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:pager_MarginTop="10dp"
+        app:pager_MarginBottom="0dp"
         app:verticalSpacing="10dp"
-        app:img_width="50dp"
-        app:img_height="50dp"
-        app:text_color="@color/colorPrimary"
-        app:text_size="14sp"
+        app:img_width="44dp"
+        app:img_height="44dp"
+        app:text_color="@color/white"
+        app:text_size="12sp"
         app:imgtext_margin="5dp"
         app:row_count="2"
         app:column_count="4"
@@ -25,10 +27,17 @@
         app:point_height="2dp"
         app:point_is_circle="false"
         app:point_margin="2dp"
-        app:point_normal_color="@color/colorPrimary"
-        app:point_select_color="@color/colorAccent"
+        app:point_normal_color="@color/white"
+        app:point_select_color="#f00"
         app:point_margin_page="10dp"
         app:point_margin_bottom="10dp"
-        app:background_color="@color/colorBg">
-    </cn.mtjsoft.www.gridpager.GridPager>
+        app:background_color="@color/white">
+    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
+
+    <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+        android:id="@+id/gridviewpager2"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 </LinearLayout>
