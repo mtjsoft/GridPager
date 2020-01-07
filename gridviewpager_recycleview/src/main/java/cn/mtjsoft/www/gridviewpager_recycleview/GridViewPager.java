@@ -39,6 +39,9 @@ public class GridViewPager extends FrameLayout {
 
     private RecyclerView recyclerView;
     private ImageView bgImageView;
+
+    private GridViewPagerAdapter pagerAdapter;
+    private LinearLayoutManager linearLayoutManager;
     /**
      * 指示点
      */
@@ -126,6 +129,34 @@ public class GridViewPager extends FrameLayout {
         recyclerView = view.findViewById(R.id.recycleview);
         andSelectCircleView = view.findViewById(R.id.scv);
         addView(view);
+        // 设置分页滑动
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerView);
+        //
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        // 滚动监听
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case SCROLL_STATE_IDLE:
+                        // recyclerview已经停止滚动
+                        // 设置指示点
+                        int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+                        andSelectCircleView.setSelectPosition(firstVisibleItem);
+                        break;
+                    case SCROLL_STATE_DRAGGING:
+                        // recyclerview正在被拖拽
+                        break;
+                    case SCROLL_STATE_SETTLING:
+                        // recyclerview正在依靠惯性滚动
+                        break;
+                }
+            }
+        });
     }
 
 
@@ -423,7 +454,6 @@ public class GridViewPager extends FrameLayout {
     /**
      * 显示
      */
-
     public void show() {
         if (dataAllCount == 0) {
             return;
@@ -433,20 +463,10 @@ public class GridViewPager extends FrameLayout {
         rl.topMargin = pagerMarginTop;
         rl.bottomMargin = pagerMarginBottom;
         recyclerView.setLayoutParams(rl);
-        // 每页数据
+        // 每页数据大小
         pageSize = rowCount * columnCount;
         // 总页数
         final int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
-        //
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        List<String> stringList = new ArrayList<>(dataAllCount);
-        for (int i = 0; i < page; i++) {
-            stringList.add(i + "");
-        }
-        GridViewPagerAdapter pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
-        recyclerView.setAdapter(pagerAdapter);
         // 显示指示器
         andSelectCircleView.setVisibility((mIsShow && page > 1) ? View.VISIBLE : View.GONE);
         if (mIsShow && page > 1) {
@@ -473,35 +493,54 @@ public class GridViewPager extends FrameLayout {
                     })
                     .addChild(page);
         }
-        // 设置分页滑动
-        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(recyclerView);
-        // 滚动监听
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                switch (newState) {
-                    case SCROLL_STATE_IDLE:
-                        // recyclerview已经停止滚动
-                        // 设置指示点
-                        int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                        andSelectCircleView.setSelectPosition(firstVisibleItem);
-                        break;
-                    case SCROLL_STATE_DRAGGING:
-                        // recyclerview正在被拖拽
-                        break;
-                    case SCROLL_STATE_SETTLING:
-                        // recyclerview正在依靠惯性滚动
-                        break;
-                }
-            }
-        });
         // 设置背景图片
         if (backgroundImageLoaderInterface != null) {
             RelativeLayout.LayoutParams bgImageViewRl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getAllHeight());
             bgImageView.setLayoutParams(bgImageViewRl);
             backgroundImageLoaderInterface.setBackgroundImg(bgImageView);
+        }
+        // 设置数据
+        setAdapter(page);
+    }
+
+    /**
+     * 设置数据
+     */
+    private List<String> stringList = new ArrayList<>();
+
+    private void setAdapter(int page) {
+        stringList.clear();
+        for (int i = 0; i < page; i++) {
+            stringList.add(i + "");
+        }
+        if (pagerAdapter == null) {
+            pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
+            recyclerView.setAdapter(pagerAdapter);
+        } else {
+            notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 刷新数据
+     */
+    private void notifyDataSetChanged() {
+        if (pagerAdapter != null) {
+            pagerAdapter.setChanged();
+            pagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * 刷新指定页码数据（每页行列数、数据总数不变，只有某个数据的值改变时使用）
+     *
+     * @param position
+     */
+    public void notifyItemChanged(int position) {
+        // 总页数
+        int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
+        if (position >= 0 && position < page && pagerAdapter != null) {
+            pagerAdapter.notifyItemChanged(position);
         }
     }
 
@@ -566,11 +605,16 @@ public class GridViewPager extends FrameLayout {
         private ViewGroup.LayoutParams layoutParamsMatch;
         private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
+        private int widthPixels;
 
         public GridViewPagerAdapter(int layoutResId, List<String> data) {
             super(layoutResId, data);
-            int width = getResources().getDisplayMetrics().widthPixels / columnCount;
-            layoutParamsMatch = new ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+            widthPixels = getResources().getDisplayMetrics().widthPixels;
+            setChanged();
+        }
+
+        public void setChanged() {
+            layoutParamsMatch = new ViewGroup.LayoutParams(widthPixels / columnCount, ViewGroup.LayoutParams.WRAP_CONTENT);
             imageLp = new LinearLayout.LayoutParams(imageWidth, imageHeight);
             textLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textLp.topMargin = textImgMargin;
@@ -578,6 +622,7 @@ public class GridViewPager extends FrameLayout {
 
         @Override
         protected void convert(@NonNull BaseViewHolder helper, String item) {
+            //
             final int position = helper.getLayoutPosition();
             FlexboxLayout flexboxLayout = helper.getView(R.id.flex_layout);
             flexboxLayout.removeAllViews();

@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
     <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
         android:id="@+id/gridviewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:pager_MarginTop="10dp"
-        app:pager_MarginBottom="0dp"
-        app:verticalSpacing="10dp"
-        app:img_width="44dp"
-        app:img_height="44dp"
-        app:text_color="@color/white"
-        app:text_size="12sp"
-        app:imgtext_margin="5dp"
-        app:row_count="2"
+        app:background_color="@color/white"
         app:column_count="4"
-        app:point_is_show="true"
-        app:point_width="15dp"
+        app:img_height="44dp"
+        app:img_width="44dp"
+        app:imgtext_margin="5dp"
+        app:pager_MarginBottom="0dp"
+        app:pager_MarginTop="10dp"
         app:point_height="2dp"
         app:point_is_circle="false"
+        app:point_is_show="true"
         app:point_margin="2dp"
+        app:point_margin_bottom="10dp"
+        app:point_margin_page="10dp"
         app:point_normal_color="@color/white"
         app:point_select_color="#f00"
-        app:point_margin_page="10dp"
-        app:point_margin_bottom="10dp"
-        app:background_color="@color/white">
-    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
+        app:point_width="15dp"
+        app:row_count="2"
+        app:text_color="@color/white"
+        app:text_size="12sp"
+        app:verticalSpacing="10dp"/>
+
+    <Button
+        android:id="@+id/btu_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:text="设置成 3*3 ，刷新数据" />
 
     <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
         android:id="@+id/gridviewpager2"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btu_page2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:text="改变第二页数据的值，刷新指定的第二页" />
 </LinearLayout>

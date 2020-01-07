@@ -3,6 +3,8 @@ package cn.mtjsoft.www.gridviewpager;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int[] iconS = new int[titles.length];
 
+    private String[] titles2 = new String[titles.length];
+    private int[] iconS2 = new int[titles.length];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         initData();
 
-        GridViewPager gridViewPager = findViewById(R.id.gridviewpager);
+        final GridViewPager gridViewPager = findViewById(R.id.gridviewpager);
         gridViewPager
                 // 设置数据总数量
                 .setDataAllCount(titles.length)
@@ -53,11 +58,29 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .show();
 
-        //
-        GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
+        // 刷新
+        Button button = findViewById(R.id.btu_page);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 改变数据
+                for (int i = 0; i < titles.length; i++) {
+                    titles[i] = titles[i] + "_1";
+                }
+                // 刷新
+                gridViewPager.setDataAllCount(titles.length).setRowCount(3).setColumnCount(3).show();
+            }
+        });
+
+        /**
+         * 指定刷新页
+         */
+        int rowCount = 2;
+        int columnCount = 5;
+        final GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
         gridViewPager2
                 // 设置数据总数量
-                .setDataAllCount(titles.length)
+                .setDataAllCount(titles2.length)
                 // 设置背景色，默认白色
                 .setGridViewPagerBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置item的纵向间距
@@ -77,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 // 设置文字大小
                 .setTextSize(12)
                 // 设置每页行数
-                .setRowCount(2)
+                .setRowCount(rowCount)
                 // 设置每页列数
-                .setColumnCount(5)
+                .setColumnCount(columnCount)
                 // 设置是否显示指示器
                 .setPointIsShow(true)
                 // 设置指示器与page的间距
@@ -110,18 +133,35 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
-                        imageView.setImageResource(iconS[position]);
-                        textView.setText(titles[position]);
+                        imageView.setImageResource(iconS2[position]);
+                        textView.setText(titles2[position]);
                     }
                 })
                 // Item点击
                 .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles2[position] + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
+
+        // 刷新指定的第二页
+        final int pageSize = columnCount * rowCount;
+        Button button2 = findViewById(R.id.btu_page2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 改变第二页的数据
+                for (int i = 0; i < titles2.length; i++) {
+                    if (i >= pageSize && i < pageSize * 2) {
+                        titles2[i] = titles2[i] + "_2";
+                    }
+                }
+                // 刷新第二页的数据
+                gridViewPager2.notifyItemChanged(1);
+            }
+        });
     }
 
 
@@ -133,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
             //动态获取资源ID，第一个参数是资源名，第二个参数是资源类型例如drawable，string等，第三个参数包名
             int imageId = getResources().getIdentifier("ic_category_" + i, "mipmap", getPackageName());
             iconS[i] = imageId;
+            //
+            titles2[i] = titles[i];
+            iconS2[i] = imageId;
         }
     }
 }
