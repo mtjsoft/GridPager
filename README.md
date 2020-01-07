@@ -1,18 +1,20 @@
 
-# GridPager
+# GridViewPager2.0
 
-GridPager组件：ViewPager结合GridView，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
+GridViewPager2.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
 
   ① 应用的首页经常需要用到这样的分类**多页展示**的效果，还有些消息输入框需要这样的**表情面板**。
   
-  ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridPager组件**就诞生了。
+  ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridViewPager组件**就诞生了。
+  
+[1.x版本请看这里](./README_1.x.md)
 
-#  GridPager组件效果
+#  GridViewPager组件效果
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190801185758323.gif)
+<img src="./gif.gif"/>
 
-#  如何使用GridPager组件
+#  如何使用GridViewPager组件
 
 # 1、在根目录 build.gradle 添加:
 
@@ -29,83 +31,57 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v1.3.2'
+	        implementation 'com.github.mtjsoft:GridPager:v2.0.0'
 	}
 ```
 
 
-# 3、在需要使用的布局xml中添加GridPager组件，根据需要设置相关属性
+# 3、在需要使用的布局xml中添加GridViewPager组件，根据需要设置相关属性
 
 ```
-<cn.mtjsoft.www.gridpager.GridPager
-        android:id="@+id/gridpager"
+    <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+        android:id="@+id/gridviewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:pager_MarginTop="10dp"
+        app:pager_MarginBottom="0dp"
         app:verticalSpacing="10dp"
-        app:img_width="50dp"
-        app:img_height="50dp"
-        app:text_color="@color/colorPrimary"
-        app:text_size="10sp"
-        app:imgtext_margin="10dp"
+        app:img_width="44dp"
+        app:img_height="44dp"
+        app:text_color="@color/white"
+        app:text_size="12sp"
+        app:imgtext_margin="5dp"
         app:row_count="2"
         app:column_count="4"
+        app:point_is_show="true"
         app:point_width="15dp"
         app:point_height="2dp"
         app:point_is_circle="false"
-        app:point_margin="3dp"
-        app:point_normal_color="@color/colorPrimary"
-        app:point_select_color="@color/colorAccent"
-	app:point_is_show="true"
+        app:point_margin="2dp"
+        app:point_normal_color="@color/white"
+        app:point_select_color="#f00"
         app:point_margin_page="10dp"
         app:point_margin_bottom="10dp"
-	app:background_color="@color/colorBg">
-    </cn.mtjsoft.www.gridpager.GridPager>
+        app:background_color="@color/white">
+    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
+
+    <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+        android:id="@+id/gridviewpager2"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
-# 4、GridPager组件的版本及属性说明
+# 4、GridViewPager组件的版本及属性说明
 
-V1.3.2
+V2.0.0
 --------------------------
 
-新增方法  | 属性说明 | 备注
-------------- | ------------- | -------------
-setGridPagersetBackgroundImage() | 支持设置背景图片，不再是单一的背景颜色了 | 2019-11-8 17:52:08
-
-V1.3.1 
---------------------------
-
-说明 | 备注
-------------- | -------------
-优化自动计算高度方法。不手动设置setViewPageHeight()固定高度时，默认自动计算，自适应高度。 | 2019-9-28 20:48:57
-
-V1.2.2 
---------------------------
-
-新增方法  | 属性说明 | 备注
-------------- | ------------- | -------------
-setViewPageHeight(152)  | 手动设置ViewPager为固定的高度，单位dp。 | 2019-9-27 17:47:31
-
-V1.2.1
---------------------------
-
-新增属性  | 属性说明 | 备注
-------------- | ------------- | -------------
-background_color  | 设置组件背景颜色，默认白色 | 2019-9-23 22:20:05
-
-V1.2.0
---------------------------
-
-新增属性  | 属性说明 | 备注
-------------- | ------------- | -------------
-point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值 | 2019-9-11 13:20:45
-point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
-point_is_show  | 是否展示指示器,默认true展示
-
-V1.1.0
---------------------------
-
-1.1.0 属性  | 属性说明 | 备注
-------------- | ------------- | -------------
-verticalSpacing  | 设置item的纵向间距 默认10dp 单位dp | 2019-8-22 16:09:55
+2.0.0 属性  | 属性说明 
+------------- | ------------- 
+pager_MarginTop  | 设置每页的上边距 默认10dp 单位dp 
+pager_MarginBottom | 设置每页的下边距 默认10dp 单位dp 
+verticalSpacing  | 设置item的纵向间距 默认10dp 单位dp 
 img_width  | 设置图片宽度 默认50dp 单位dp
 img_height  | 设置图片高度 默认50dp 单位dp
 text_color  | 设置文字颜色 默认黑色
@@ -113,35 +89,46 @@ imgtext_margin  | 设置文字与图片的间距 默认5dp 单位dp
 text_size  | 设置文字大小 默认10sp 单位sp
 row_count  | 设置每页行数 默认2
 column_count  | 设置每页列数 默认4
+point_is_show  | 是否展示指示器,默认true展示
 point_width  | 设置指示器的item宽度 默认8dp 单位dp
 point_height  | 设置指示器的item高度 默认8dp 单位dp
 point_margin  | 设置指示器的item的间距 默认8dp 单位dp
 point_normal_color  | 指示器item未选中的颜色 默认灰色
 point_select_color  | 指示器item选中的颜色 默认红色
 point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高的最小值
+point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
+point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
+background_color  | 设置组件背景颜色，默认白色
 
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
 
 ```
-GridPager gridPager = findViewById(R.id.gridpager);
-        gridPager
-                // 设置数量总条数
+        GridViewPager gridViewPager = findViewById(R.id.gridviewpager);
+        gridViewPager
+                // 设置数据总数量
                 .setDataAllCount(titles.length)
-                // 数据绑定
-                .setItemBindDataListener(new GridPager.ItemBindDataListener() {
+                // 设置背景图片(此时设置的背景色无效，以背景图片为主)
+                .setBackgroundImageLoader(new GridViewPager.BackgroundImageLoaderInterface() {
                     @Override
-                    public void BindData(ImageView imageView, TextView textView, int position) {
+                    public void setBackgroundImg(ImageView bgImageView) {
+                        bgImageView.setImageResource(R.drawable.ic_launcher_background);
+                    }
+                })
+                // 数据绑定
+                .setImageTextLoaderInterface(new GridViewPager.ImageTextLoaderInterface() {
+                    @Override
+                    public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
                         imageView.setImageResource(iconS[position]);
                         textView.setText(titles[position]);
                     }
                 })
                 // Item点击
-                .setGridItemClickListener(new GridPager.GridItemClickListener() {
+                .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position], Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
@@ -150,63 +137,71 @@ GridPager gridPager = findViewById(R.id.gridpager);
 # 6、代码中也可直接设置属性（如果xml与代码都设置了， 最终以代码设置为准）
 
 ```
-        gridPager
-                // 设置数量总条数
+        GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
+        gridViewPager2
+                // 设置数据总数量
                 .setDataAllCount(titles.length)
-		// 设置背景图片（有背景图片时，设置背景颜色无效,采用的Glide加载）
-		.setGridPagersetBackgroundImage("https://huilife.api.luoyangzixun.cn/XiaoFile/index-miandan-bg.png")
-		// 手动设置ViewPager为固定的高度，单位dp。（可以不设置，默认是自动计算高度）
-		//.setViewPageHeight(152)
-		// 设置背景色，默认白色
-                .setGridPagerBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.colorBg))
+                // 设置背景色，默认白色
+                .setGridViewPagerBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置item的纵向间距
-                .setVerticalSpacing(20)
+                .setVerticalSpacing(10)
+                // 设置上边距
+                .setPagerMarginTop(10)
+                // 设置下边距
+                .setPagerMarginBottom(10)
                 // 设置图片宽度
-                .setImageWidth(80)
+                .setImageWidth(50)
                 // 设置图片高度
-                .setImageHeight(80)
+                .setImageHeight(50)
                 // 设置文字与图片的间距
-                .setTextImgMargin(10)
+                .setTextImgMargin(5)
                 // 设置文字颜色
-                .setTextColor(ContextCompat.getColor(getBaseContext(),R.color.colorPrimaryDark))
+                .setTextColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置文字大小
                 .setTextSize(12)
                 // 设置每页行数
                 .setRowCount(2)
                 // 设置每页列数
-                .setColumnCount(4)
-		// 设置是否显示指示器
+                .setColumnCount(5)
+                // 设置是否显示指示器
                 .setPointIsShow(true)
                 // 设置指示器与page的间距
                 .setPointMarginPage(10)
                 // 设置指示器与底部的间距
                 .setPointMarginBottom(10)
                 // 设置指示器的item宽度
-                .setPointChildWidth(15)
+                .setPointChildWidth(8)
                 // 设置指示器的item高度
-                .setPointChildHeight(3)
+                .setPointChildHeight(8)
                 // 设置指示器的item的间距
-                .setPointChildMargin(5)
+                .setPointChildMargin(8)
                 // 指示器的item是否为圆形，默认圆形直径取宽高的最小值
-                .setPointIsCircle(false)
+                .setPointIsCircle(true)
                 // 指示器item未选中的颜色
-                .setPointNormalColor(ContextCompat.getColor(getBaseContext(),R.color.colorPrimary))
+                .setPointNormalColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 指示器item选中的颜色
-                .setPointSelectColor(ContextCompat.getColor(getBaseContext(),R.color.colorAccent))
-                // 数据绑定
-                .setItemBindDataListener(new GridPager.ItemBindDataListener() {
+                .setPointSelectColor(ContextCompat.getColor(getBaseContext(), R.color.black_text))
+                // 设置背景图片(此时设置的背景色无效，以背景图片为主)
+                .setBackgroundImageLoader(new GridViewPager.BackgroundImageLoaderInterface() {
                     @Override
-                    public void BindData(ImageView imageView, TextView textView, int position) {
+                    public void setBackgroundImg(ImageView bgImageView) {
+                        bgImageView.setImageResource(R.drawable.ic_launcher_background_red);
+                    }
+                })
+                // 数据绑定
+                .setImageTextLoaderInterface(new GridViewPager.ImageTextLoaderInterface() {
+                    @Override
+                    public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
                         imageView.setImageResource(iconS[position]);
                         textView.setText(titles[position]);
                     }
                 })
                 // Item点击
-                .setGridItemClickListener(new GridPager.GridItemClickListener() {
+                .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position], Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
