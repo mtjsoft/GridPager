@@ -1,5 +1,5 @@
 
-# GridViewPager2.0
+# GridViewPager2.x
 
 GridViewPager2.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
@@ -73,6 +73,14 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+
+V2.1.0
+--------------------------
+
+2.1.0 属性  | 属性说明 
+------------- | ------------- 
+notifyItemChanged(int position)  |  刷新指定页数据
+
 
 V2.0.0
 --------------------------
@@ -206,6 +214,28 @@ background_color  | 设置组件背景颜色，默认白色
                 })
                 .show();
 ```
+# 7、刷新数据
+
+**设置新属性，刷新**
+
+```
+                gridViewPager
+		        // 数据大小有变化时，得设置
+                        .setDataAllCount(titles.length)
+			// 动态改变其他属性
+                        .setRowCount(3)
+                        .setColumnCount(3)
+			// 再次show()，gridViewPager不为空时，走notifyDataSetChanged()刷新数据
+                        .show();
+```
+
+**刷新指定页码数据（每页行列数、数据总数不变，只有某个数据的值改变时使用）**
+
+```
+                // 页码从0开始，例如下面是只刷新第二页数据
+                gridViewPager.notifyItemChanged(1)
+```
+
 ## 实现就是如此简单
 
 **添加我个人微信号交流，记得添加时备注一下哦**
