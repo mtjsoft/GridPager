@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<cn.mtjsoft.www.gridpager.view.AtMostGridView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gridView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:verticalSpacing="10dp"
-    android:numColumns="auto_fit">
-</cn.mtjsoft.www.gridpager.view.AtMostGridView>

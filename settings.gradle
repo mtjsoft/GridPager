@@ -1,1 +1,1 @@
-include ':app', ':gridpager'
+include ':app', ':gridviewpager_recycleview'
