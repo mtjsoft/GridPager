@@ -10,6 +10,8 @@ GridViewPager2.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实�
   
 [1.x版本请看这里](./README_1.x.md)
 
+[AndroidX分支](./tree/androidx)
+
 #  GridViewPager组件效果
 
 <img src="./gif.gif"/>
@@ -31,7 +33,11 @@ allprojects {
 
 ```
 dependencies {
+                // support
 	        implementation 'com.github.mtjsoft:GridPager:v2.1.0'
+		
+		// AndroidX
+		implementation 'com.github.mtjsoft:GridPager:v3.0.0'
 	}
 ```
 
