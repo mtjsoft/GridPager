@@ -1,14 +1,12 @@
 
-# GridViewPager2.x
+# GridViewPager3.x
 
-GridViewPager2.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
+GridViewPager3.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
 
   ① 应用的首页经常需要用到这样的分类**多页展示**的效果，还有些消息输入框需要这样的**表情面板**。
   
   ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridViewPager组件**就诞生了。
-  
-[1.x版本请看这里](./README_1.x.md)
 
 #  GridViewPager组件效果
 
@@ -31,7 +29,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v2.1.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.0.0'
 	}
 ```
 
@@ -74,18 +72,10 @@ dependencies {
 ```
 # 4、GridViewPager组件的版本及属性说明
 
-V2.1.0
+V3.0.0
 --------------------------
 
-2.1.0 属性  | 属性说明 
-------------- | ------------- 
-notifyItemChanged(int position)  |  刷新指定页数据
-
-
-V2.0.0
---------------------------
-
-2.0.0 属性  | 属性说明 
+3.0.0 属性  | 属性说明 
 ------------- | ------------- 
 pager_MarginTop  | 设置每页的上边距 默认10dp 单位dp 
 pager_MarginBottom | 设置每页的下边距 默认10dp 单位dp 
@@ -107,6 +97,7 @@ point_is_circle  | 指示器的item是否为圆形，默认圆形直径取宽高
 point_margin_page  | 设置指示器与page的间距,默认是verticalSpacing的值
 point_margin_bottom  | 设置指示器与底部的间距,默认是verticalSpacing的值
 background_color  | 设置组件背景颜色，默认白色
+notifyItemChanged(int position)  |  刷新指定页数据
 
 
 # 5、代码实现。链式调用，只需要设置总数量即可。数据绑定完全自定义，不受任何图片加载框架限制，更加自由。
