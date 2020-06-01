@@ -29,7 +29,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.0.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.1.0'
 	}
 ```
 
@@ -71,6 +71,11 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+
+V3.1.0
+--------------------------
+修复布局设置margin显示不全的问题
+
 
 V3.0.0
 --------------------------
