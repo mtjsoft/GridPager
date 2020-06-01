@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.flexbox.FlexboxLayout;
@@ -20,11 +27,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndDensityUtils;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndSelectCircleView;
 
@@ -43,6 +45,8 @@ public class GridViewPager extends FrameLayout {
 
     private GridViewPagerAdapter pagerAdapter;
     private LinearLayoutManager linearLayoutManager;
+
+    private int widthPixels = 0;
     /**
      * 指示点
      */
@@ -70,6 +74,12 @@ public class GridViewPager extends FrameLayout {
      * GridViewPager
      */
     // 数据列表
+    // view的宽
+    private int viewWidth = 0;
+    // view 左间距
+    private int viewMarginLeft = 0;
+    // view 右间距
+    private int viewMarginRight = 0;
     // page上间距
     private int pagerMarginTop = 10;
     // page下间距
@@ -96,6 +106,8 @@ public class GridViewPager extends FrameLayout {
     private int dataAllCount = 0;
     // 背景颜色
     private int backgroundColor = Color.WHITE;
+    // item背景颜色
+    private int itemBackgroundColor = Color.TRANSPARENT;
 
     /**
      * item点击监听
@@ -116,6 +128,7 @@ public class GridViewPager extends FrameLayout {
 
     public GridViewPager(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        widthPixels = getResources().getDisplayMetrics().widthPixels;
         handleTypedArray(context, attrs);
         initView();
         setBackgroundColor(backgroundColor);
@@ -170,6 +183,7 @@ public class GridViewPager extends FrameLayout {
         pagerMarginBottom = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_pager_MarginBottom, AndDensityUtils.dip2px(getContext(), pagerMarginBottom));
         verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_verticalSpacing, AndDensityUtils.dip2px(getContext(), verticalSpacing));
         backgroundColor = typedArray.getColor(R.styleable.GridViewPager_background_color, Color.WHITE);
+        itemBackgroundColor = typedArray.getColor(R.styleable.GridViewPager_item_background_color, Color.TRANSPARENT);
         imageWidth = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_img_width, AndDensityUtils.dip2px(getContext(), imageWidth));
         imageHeight = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_img_height, AndDensityUtils.dip2px(getContext(), imageHeight));
         textColor = typedArray.getColor(R.styleable.GridViewPager_text_color, Color.BLACK);
@@ -296,6 +310,17 @@ public class GridViewPager extends FrameLayout {
      */
     public GridViewPager setGridViewPagerBackgroundColor(int backgroundColor) {
         setBackgroundColor(backgroundColor);
+        return this;
+    }
+
+    /**
+     * 单独设置item的背景
+     *
+     * @param itemBackgroundColor
+     * @return
+     */
+    public GridViewPager setItemBackgroundColor(int itemBackgroundColor) {
+        this.itemBackgroundColor = itemBackgroundColor;
         return this;
     }
 
@@ -515,8 +540,15 @@ public class GridViewPager extends FrameLayout {
             stringList.add(i + "");
         }
         if (pagerAdapter == null) {
-            pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
-            recyclerView.setAdapter(pagerAdapter);
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    // post最后调用，可获取测量后的宽度
+                    widthPixels = getMeasuredWidth();
+                    pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
+                    recyclerView.setAdapter(pagerAdapter);
+                }
+            });
         } else {
             notifyDataSetChanged();
         }
@@ -606,11 +638,9 @@ public class GridViewPager extends FrameLayout {
         private ViewGroup.LayoutParams layoutParamsMatch;
         private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
-        private int widthPixels;
 
         public GridViewPagerAdapter(int layoutResId, List<String> data) {
             super(layoutResId, data);
-            widthPixels = getResources().getDisplayMetrics().widthPixels;
             setChanged();
         }
 
@@ -637,6 +667,7 @@ public class GridViewPager extends FrameLayout {
                 View view = View.inflate(getContext(), R.layout.gridpager_item, null);
                 LinearLayout layout = view.findViewById(R.id.ll_layout);
                 layout.setLayoutParams(layoutParamsMatch);
+                layout.setBackgroundColor(itemBackgroundColor);
                 ImageView imageView = view.findViewById(R.id.item_image);
                 imageView.setLayoutParams(imageLp);
                 TextView textView = view.findViewById(R.id.item_text);
