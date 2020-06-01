@@ -27,9 +27,11 @@ allprojects {
 
 # 2、在app项目下的build.gradle中添加：
 
+[![](https://jitpack.io/v/mtjsoft/GridPager.svg)](https://jitpack.io/#mtjsoft/GridPager)
+
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.1.0'
+	        implementation 'com.github.mtjsoft:GridPager: 最新版本'
 	}
 ```
 
