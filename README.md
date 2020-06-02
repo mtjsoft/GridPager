@@ -31,7 +31,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager: 最新版本'
+	        implementation 'com.github.mtjsoft:GridPager: v3.1.0'
 	}
 ```
 
