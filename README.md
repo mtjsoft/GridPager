@@ -10,7 +10,7 @@ GridViewPager3.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实�
 
 #  GridViewPager组件效果
 
-<img src="./gif.gif"/>
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020062920115094.gif#pic_center)
 
 #  如何使用GridViewPager组件
 
@@ -238,7 +238,7 @@ notifyItemChanged(int position)  |  刷新指定页数据
 
 **添加我个人微信号交流，记得添加时备注一下哦**
 
-<img src="./wxqrcode.jpg">
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200629201307276.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Nzc5MDgz,size_16,color_FFFFFF,t_70)
 
 **本人公众号，也可关注一波，共同交流吧。**
 
