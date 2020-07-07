@@ -1,5 +1,6 @@
 package cn.mtjsoft.www.gridviewpager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -160,6 +161,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 // 刷新第二页的数据
                 gridViewPager2.notifyItemChanged(1);
+            }
+        });
+
+
+        Button button3 = findViewById(R.id.btu_list);
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), ListActivity.class));
             }
         });
     }

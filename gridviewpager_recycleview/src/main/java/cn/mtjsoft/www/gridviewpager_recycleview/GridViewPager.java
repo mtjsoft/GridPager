@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -118,6 +119,9 @@ public class GridViewPager extends FrameLayout {
 
     private BackgroundImageLoaderInterface backgroundImageLoaderInterface;
 
+    private float startX;
+    private float startY;
+
     public GridViewPager(Context context) {
         this(context, null);
     }
@@ -202,6 +206,39 @@ public class GridViewPager extends FrameLayout {
         pointMarginPage = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_margin_page, verticalSpacing);
         pointMarginBottom = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_margin_bottom, verticalSpacing);
         typedArray.recycle();
+    }
+
+    /**
+     * 处理列表滑动
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //手指按下记录xy的位置
+                startX = ev.getX();
+                startY = ev.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //我们希望如果横向滑动距离大于纵向滑动距离，肯定是要操作 gridviewpager
+                //所以此处要告诉父控件不要拦截事件,否则事件交给父控件来处理
+                if (Math.abs(ev.getX() - startX) > Math.abs(ev.getY() - startY)) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+            default:
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
