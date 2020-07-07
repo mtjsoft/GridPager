@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -106,6 +107,11 @@ public class GridViewPager extends FrameLayout {
 
     private BackgroundImageLoaderInterface backgroundImageLoaderInterface;
 
+    private int widthPixels = 0;
+
+    private float startX;
+    private float startY;
+
     public GridViewPager(Context context) {
         this(context, null);
     }
@@ -116,6 +122,7 @@ public class GridViewPager extends FrameLayout {
 
     public GridViewPager(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        widthPixels = getResources().getDisplayMetrics().widthPixels;
         handleTypedArray(context, attrs);
         initView();
         setBackgroundColor(backgroundColor);
@@ -188,6 +195,39 @@ public class GridViewPager extends FrameLayout {
         pointMarginPage = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_margin_page, verticalSpacing);
         pointMarginBottom = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_margin_bottom, verticalSpacing);
         typedArray.recycle();
+    }
+
+    /**
+     * 处理列表滑动
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //手指按下记录xy的位置
+                startX = ev.getX();
+                startY = ev.getY();
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //我们希望如果横向滑动距离大于纵向滑动距离，肯定是要操作 gridviewpager
+                //所以此处要告诉父控件不要拦截事件,否则事件交给父控件来处理
+                if (Math.abs(ev.getX() - startX) > Math.abs(ev.getY() - startY)) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                } else {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                getParent().requestDisallowInterceptTouchEvent(false);
+                break;
+            default:
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -515,8 +555,15 @@ public class GridViewPager extends FrameLayout {
             stringList.add(i + "");
         }
         if (pagerAdapter == null) {
-            pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
-            recyclerView.setAdapter(pagerAdapter);
+            this.post(new Runnable() {
+                @Override
+                public void run() {
+                    // post最后调用，可获取测量后的宽度
+                    widthPixels = getMeasuredWidth();
+                    pagerAdapter = new GridViewPagerAdapter(R.layout.gridpager_item_layout, stringList);
+                    recyclerView.setAdapter(pagerAdapter);
+                }
+            });
         } else {
             notifyDataSetChanged();
         }
@@ -606,11 +653,10 @@ public class GridViewPager extends FrameLayout {
         private ViewGroup.LayoutParams layoutParamsMatch;
         private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
-        private int widthPixels;
+
 
         public GridViewPagerAdapter(int layoutResId, List<String> data) {
             super(layoutResId, data);
-            widthPixels = getResources().getDisplayMetrics().widthPixels;
             setChanged();
         }
 

@@ -19,8 +19,8 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:includeFontPadding="false"
+        android:padding="0dp"
         android:text="@string/app_name"
-        android:padding="-10dp"
         android:textColor="@android:color/black"
         android:textSize="10sp" />
 </LinearLayout>
