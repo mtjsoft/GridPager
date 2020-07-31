@@ -9,17 +9,16 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleview"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none" />
+        android:layout_height="wrap_content"/>
 
     <cn.mtjsoft.www.gridviewpager_recycleview.view.AndSelectCircleView
         android:id="@+id/scv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recycleview"
+        android:layout_below="@+id/viewPager2"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

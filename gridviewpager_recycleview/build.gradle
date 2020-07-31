@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.mtjsoft'
+group = 'com.github.mtjsoft'
 android {
     compileSdkVersion 28
 
@@ -30,8 +30,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    // 引入BaseRecyclerViewAdapterHelper
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     // 弹性布局
     implementation 'com.google.android:flexbox:2.0.1'
+    // viewpager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }
