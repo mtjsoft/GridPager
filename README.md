@@ -33,7 +33,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager: v3.3.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.3.0'
 	}
 ```
 
