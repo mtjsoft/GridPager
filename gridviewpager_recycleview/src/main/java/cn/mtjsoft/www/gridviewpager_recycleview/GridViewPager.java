@@ -24,6 +24,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.mtjsoft.www.gridviewpager_recycleview.transformer.CoverPageTransformer;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndDensityUtils;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndSelectCircleView;
 
@@ -94,6 +95,9 @@ public class GridViewPager extends FrameLayout {
     // item背景颜色
     private int itemBackgroundColor = Color.TRANSPARENT;
 
+    // 用于切换动画
+    private ViewPager2.PageTransformer pageTransformer;
+
     /**
      * item点击监听
      */
@@ -105,6 +109,9 @@ public class GridViewPager extends FrameLayout {
 
     private float startX;
     private float startY;
+
+    // 记录当前页
+    private int pageNumber = 0;
 
     public GridViewPager(Context context) {
         this(context, null);
@@ -140,6 +147,7 @@ public class GridViewPager extends FrameLayout {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                pageNumber = position;
                 andSelectCircleView.setSelectPosition(position);
             }
 
@@ -483,11 +491,54 @@ public class GridViewPager extends FrameLayout {
     }
 
     /**
+     * 设置自定义 PageTransformer
+     *
+     * @param pageTransformer
+     * @return
+     */
+    public GridViewPager setCustomPageTransformer(ViewPager2.PageTransformer pageTransformer) {
+        this.pageTransformer = pageTransformer;
+        return this;
+    }
+
+    /**
+     * 设置内置的覆盖效果的 PageTransformer
+     *
+     * @return
+     */
+    public GridViewPager setCoverPageTransformer() {
+        this.pageTransformer = new CoverPageTransformer();
+        return this;
+    }
+
+    /**
+     * 获取页码大小
+     *
+     * @return
+     */
+    public int getPageSize() {
+        pageSize = rowCount * columnCount;
+        return dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
+    }
+
+    /**
+     * 获取一页大小
+     *
+     * @return
+     */
+    public int getOnePageSize() {
+        return rowCount * columnCount;
+    }
+
+    /**
      * 显示
      */
     public void show() {
         if (dataAllCount == 0) {
             return;
+        }
+        if (pageTransformer != null) {
+            viewPager2.setPageTransformer(pageTransformer);
         }
         // 设置高度
         RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getAutoHeight());
@@ -518,7 +569,7 @@ public class GridViewPager extends FrameLayout {
                         public void checkedChange(int position) {
                             if (position >= 0 && position < page) {
                                 // 指示点点击，滚动到对应的页
-                                viewPager2.setCurrentItem(position,true);
+                                viewPager2.setCurrentItem(position, true);
                             }
                         }
                     })
@@ -552,6 +603,7 @@ public class GridViewPager extends FrameLayout {
                     widthPixels = getMeasuredWidth();
                     pagerAdapter = new PagerAdapter(viewPager2.getContext(), R.layout.gridpager_item_layout, stringList);
                     viewPager2.setAdapter(pagerAdapter);
+                    viewPager2.setOffscreenPageLimit(3);
                 }
             });
         } else {
@@ -576,7 +628,7 @@ public class GridViewPager extends FrameLayout {
      */
     public void notifyItemChanged(int position) {
         // 总页数
-        int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
+        int page = getPageSize();
         if (position >= 0 && position < page && pagerAdapter != null) {
             pagerAdapter.notifyItemChanged(position);
         }

@@ -4,13 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:context=".MainActivity">
 
@@ -19,6 +18,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:background_color="@color/white"
+            app:column_count="4"
+            app:img_height="44dp"
+            app:img_width="44dp"
+            app:imgtext_margin="5dp"
+            app:pager_MarginBottom="10dp"
+            app:pager_MarginTop="10dp"
+            app:point_height="2dp"
+            app:point_is_circle="false"
+            app:point_is_show="true"
+            app:point_margin="2dp"
+            app:point_margin_bottom="10dp"
+            app:point_margin_page="0dp"
+            app:point_normal_color="@color/white"
+            app:point_select_color="#f00"
+            app:point_width="15dp"
+            app:row_count="2"
+            app:text_color="@color/white"
+            app:text_size="12sp"
+            app:verticalSpacing="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_row"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="设置行数：2" />
+
+            <SeekBar
+                android:id="@+id/sb_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="3"
+                android:min="1"
+                android:progress="2" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_column"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="设置列数：5" />
+
+            <SeekBar
+                android:id="@+id/sb_column"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:min="1"
+                android:progress="5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_page"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="指定刷新页：0" />
+
+            <SeekBar
+                android:id="@+id/sb_page"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="0" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btu_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            android:text="点击更新设置" />
+
+        <Button
+            android:id="@+id/btu_page2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            android:text="点击 刷新指定页数据" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:text="↓↓↓ 翻页效果展示 ↓↓↓"
+            android:textColor="@color/black" />
+
+        <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
+            android:id="@+id/gridviewpager2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:background_color="@color/colorPrimary"
             app:column_count="4"
             app:img_height="44dp"
             app:img_width="44dp"
@@ -38,30 +156,6 @@
             app:text_color="@color/white"
             app:text_size="12sp"
             app:verticalSpacing="10dp" />
-
-        <Button
-            android:id="@+id/btu_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            android:text="设置成 3*3 ，刷新数据" />
-
-        <cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager
-            android:id="@+id/gridviewpager2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp" />
-
-        <Button
-            android:id="@+id/btu_page2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            android:text="改变第二页数据的值，刷新指定的第二页" />
 
         <Button
             android:id="@+id/btu_list"

@@ -158,7 +158,7 @@ public class AndSelectCircleView extends RadioGroup {
     public void addChild(int count) {
         clear();
         if (count < 1) {
-            throw new InvalidParameterException("count must be biger than 0");
+            return;
         }
         mNormalDrawable = getSpecialDrawable(true);
         mSelectDrawable = getSpecialDrawable(false);

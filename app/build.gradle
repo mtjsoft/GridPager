@@ -28,5 +28,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation project(':gridviewpager_recycleview')
-//    implementation 'com.github.mtjsoft:GridPager:v3.2.0'
+//    implementation 'com.github.mtjsoft:GridPager:v3.3.0'
 }

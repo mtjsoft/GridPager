@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import java.util.Random;
+
 import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private String[] titles = {"美食", "电影", "酒店住宿", "休闲娱乐", "外卖", "自助餐", "KTV", "机票/火车票", "周边游", "美甲美睫",
             "火锅", "生日蛋糕", "甜品饮品", "水上乐园", "汽车服务", "美发", "丽人", "景点", "足疗按摩", "运动健身", "健身", "超市", "买菜",
@@ -20,8 +24,19 @@ public class MainActivity extends AppCompatActivity {
 
     private int[] iconS = new int[titles.length];
 
-    private String[] titles2 = new String[titles.length];
-    private int[] iconS2 = new int[titles.length];
+    private int rowCount = 2;
+    private int columnCount = 5;
+    // 指定刷新某一页数据
+    private int page = 0;
+
+    //
+    private GridViewPager gridViewPager;
+    private TextView tv_row;
+    private TextView tv_column;
+    private TextView tv_page;
+
+
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,58 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
         initData();
 
-        final GridViewPager gridViewPager = findViewById(R.id.gridviewpager);
+
+        gridViewPager = findViewById(R.id.gridviewpager);
         gridViewPager
                 // 设置数据总数量
                 .setDataAllCount(titles.length)
-                // 设置背景图片(此时设置的背景色无效，以背景图片为主)
-                .setBackgroundImageLoader(new GridViewPager.BackgroundImageLoaderInterface() {
-                    @Override
-                    public void setBackgroundImg(ImageView bgImageView) {
-                        bgImageView.setImageResource(R.drawable.ic_launcher_background);
-                    }
-                })
-                // 数据绑定
-                .setImageTextLoaderInterface(new GridViewPager.ImageTextLoaderInterface() {
-                    @Override
-                    public void displayImageText(ImageView imageView, TextView textView, int position) {
-                        // 自己进行数据的绑定，灵活度更高，不受任何限制
-                        imageView.setImageResource(iconS[position]);
-                        textView.setText(titles[position]);
-                    }
-                })
-                // Item点击
-                .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
-                    @Override
-                    public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
-
-        // 刷新
-        Button button = findViewById(R.id.btu_page);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 改变数据
-                for (int i = 0; i < titles.length; i++) {
-                    titles[i] = titles[i] + "_1";
-                }
-                // 刷新
-                gridViewPager.setDataAllCount(titles.length).setRowCount(3).setColumnCount(3).show();
-            }
-        });
-
-        /**
-         * 指定刷新页
-         */
-        int rowCount = 2;
-        int columnCount = 5;
-        final GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
-        gridViewPager2
-                // 设置数据总数量
-                .setDataAllCount(titles2.length)
                 // 设置背景色，默认白色
                 .setGridViewPagerBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置item的纵向间距
@@ -107,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 // 设置是否显示指示器
                 .setPointIsShow(true)
                 // 设置指示器与page的间距
-                .setPointMarginPage(10)
+                .setPointMarginPage(0)
                 // 设置指示器与底部的间距
                 .setPointMarginBottom(10)
                 // 设置指示器的item宽度
@@ -134,37 +102,89 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
-                        imageView.setImageResource(iconS2[position]);
-                        textView.setText(titles2[position]);
+                        imageView.setImageResource(iconS[position]);
+                        textView.setText(titles[position]);
                     }
                 })
                 // Item点击
                 .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles2[position] + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
 
+        //
+        tv_row = findViewById(R.id.tv_row);
+        tv_column = findViewById(R.id.tv_column);
+        tv_page = findViewById(R.id.tv_page);
+        SeekBar sb_row = findViewById(R.id.sb_row);
+        SeekBar sb_column = findViewById(R.id.sb_column);
+        SeekBar sb_page = findViewById(R.id.sb_page);
+        sb_row.setOnSeekBarChangeListener(this);
+        sb_column.setOnSeekBarChangeListener(this);
+        sb_page.setOnSeekBarChangeListener(this);
+
+        // 刷新
+        Button button = findViewById(R.id.btu_page);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 改变数据
+                int x = random.nextInt(5);
+                for (int i = 0; i < titles.length; i++) {
+                    titles[i] = titles[i].split("_")[0] + "_" + x;
+                }
+                // 刷新
+                gridViewPager.setDataAllCount(titles.length).setRowCount(rowCount).setColumnCount(columnCount).show();
+            }
+        });
         // 刷新指定的第二页
         final int pageSize = columnCount * rowCount;
         Button button2 = findViewById(R.id.btu_page2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int x = random.nextInt(5) + 5;
                 // 改变第二页的数据
-                for (int i = 0; i < titles2.length; i++) {
-                    if (i >= pageSize && i < pageSize * 2) {
-                        titles2[i] = titles2[i] + "_2";
+                for (int i = 0; i < titles.length; i++) {
+                    if (i >= pageSize * page && i < pageSize * (page + 1)) {
+                        titles[i] = titles[i].split("_")[0] + "_" + x;
                     }
                 }
                 // 刷新第二页的数据
-                gridViewPager2.notifyItemChanged(1);
+                gridViewPager.notifyItemChanged(page);
             }
         });
 
+        // 测试翻页效果
+        GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
+        gridViewPager2
+                // 设置数据总数量
+                .setDataAllCount(titles.length)
+                // 设置内置的覆盖翻页效果
+                .setCoverPageTransformer()
+                // 数据绑定
+                .setImageTextLoaderInterface(new GridViewPager.ImageTextLoaderInterface() {
+                    @Override
+                    public void displayImageText(ImageView imageView, TextView textView, int position) {
+                        // 自己进行数据的绑定，灵活度更高，不受任何限制
+                        imageView.setImageResource(iconS[position]);
+                        textView.setText(titles[position]);
+                    }
+                })
+                // Item点击
+                .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
+                    @Override
+                    public void click(int position) {
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
 
+
+        // 测试列表
         Button button3 = findViewById(R.id.btu_list);
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,9 +203,46 @@ public class MainActivity extends AppCompatActivity {
             //动态获取资源ID，第一个参数是资源名，第二个参数是资源类型例如drawable，string等，第三个参数包名
             int imageId = getResources().getIdentifier("ic_category_" + i, "mipmap", getPackageName());
             iconS[i] = imageId;
-            //
-            titles2[i] = titles[i];
-            iconS2[i] = imageId;
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        switch (seekBar.getId()) {
+            case R.id.sb_row:
+                if (i < 1) {
+                    Toast.makeText(getBaseContext(), "最少设置一行", Toast.LENGTH_SHORT).show();
+                } else {
+                    tv_row.setText("设置行数：" + i);
+                    rowCount = i;
+                }
+                break;
+            case R.id.sb_column:
+                if (i < 1) {
+                    Toast.makeText(getBaseContext(), "最少设置一列", Toast.LENGTH_SHORT).show();
+                } else {
+                    tv_column.setText("设置列数：" + i);
+                    columnCount = i;
+                }
+                break;
+            case R.id.sb_page:
+                if (i > gridViewPager.getPageSize() - 1) {
+                    Toast.makeText(getBaseContext(), "超出页码", Toast.LENGTH_SHORT).show();
+                } else {
+                    tv_page.setText("指定刷新页：" + i);
+                    page = i;
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }
