@@ -15,15 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 import cn.mtjsoft.www.gridviewpager_recycleview.transformer.CoverPageTransformer;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndDensityUtils;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndSelectCircleView;
@@ -527,7 +526,7 @@ public class GridViewPager extends FrameLayout {
      * @return
      */
     public int getOnePageSize() {
-        return rowCount * columnCount;
+        return pageSize;
     }
 
     /**
@@ -603,7 +602,7 @@ public class GridViewPager extends FrameLayout {
                     widthPixels = getMeasuredWidth();
                     pagerAdapter = new PagerAdapter(viewPager2.getContext(), R.layout.gridpager_item_layout, stringList);
                     viewPager2.setAdapter(pagerAdapter);
-                    viewPager2.setOffscreenPageLimit(3);
+                    viewPager2.setOffscreenPageLimit(1);
                 }
             });
         } else {
@@ -699,6 +698,7 @@ public class GridViewPager extends FrameLayout {
         private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
 
+
         public PagerAdapter(Context context, int layoutResId, List<String> data) {
             this.context = context;
             this.layoutResId = layoutResId;
@@ -711,6 +711,11 @@ public class GridViewPager extends FrameLayout {
             imageLp = new LinearLayout.LayoutParams(imageWidth, imageHeight);
             textLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textLp.topMargin = textImgMargin;
+        }
+
+        @Override
+        public int getItemCount() {
+            return data == null || data.size() == 0 ? 0 : data.size();
         }
 
         @NonNull
@@ -746,11 +751,6 @@ public class GridViewPager extends FrameLayout {
                 layout.setOnClickListener(new myClick(position, i));
                 holder.flexboxLayout.addView(view);
             }
-        }
-
-        @Override
-        public int getItemCount() {
-            return data == null ? 0 : data.size();
         }
 
         private class myClick implements OnClickListener {

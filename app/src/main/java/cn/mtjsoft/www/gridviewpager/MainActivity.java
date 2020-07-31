@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         gridViewPager = findViewById(R.id.gridviewpager);
         gridViewPager
                 // 设置数据总数量
-                .setDataAllCount(titles.length)
+                .setDataAllCount(6)
                 // 设置背景色，默认白色
                 .setGridViewPagerBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置item的纵向间距
@@ -140,20 +140,20 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 gridViewPager.setDataAllCount(titles.length).setRowCount(rowCount).setColumnCount(columnCount).show();
             }
         });
-        // 刷新指定的第二页
-        final int pageSize = columnCount * rowCount;
+        // 刷新指定的第page页
         Button button2 = findViewById(R.id.btu_page2);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int pageSize = gridViewPager.getOnePageSize();
                 int x = random.nextInt(5) + 5;
-                // 改变第二页的数据
+                // 改变第page页的数据
                 for (int i = 0; i < titles.length; i++) {
                     if (i >= pageSize * page && i < pageSize * (page + 1)) {
                         titles[i] = titles[i].split("_")[0] + "_" + x;
                     }
                 }
-                // 刷新第二页的数据
+                // 刷新第page页的数据
                 gridViewPager.notifyItemChanged(page);
             }
         });
