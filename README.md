@@ -4,6 +4,8 @@
 GridViewPager3.0组件：采用RecycleView + FlexBoxLayout + PagerSnapHelper实现方式，轻松实现类似美团首页分类多页展示。也可用于表情面板的展示。
 链式调用，属性配置，几行代码轻松搞定。
 
+v3.3.0 开始采用 viewpager2 + FlexBoxLayout 实现
+
   ① 应用的首页经常需要用到这样的分类**多页展示**的效果，还有些消息输入框需要这样的**表情面板**。
   
   ② 既然是常用的，作为懒惰的我，肯定不会每次都去写一遍。网上也找了很多类似的例子，但始终不是我想要的**简洁接入**使用的方式。要么就是加载图片有限制，要么就是样式限制的太死，还得改源码，我不喜欢，我得造一个轮子。。。必须封装一个简单好用的组件，做到几行代码就可实现效果才行。于是乎，**GridViewPager组件**就诞生了。
@@ -31,7 +33,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager: v3.2.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.3.0'
 	}
 ```
 
@@ -73,6 +75,10 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+
+V3.3.0
+--------------------------
+更换 viewpager2 + FlexBoxLayout 实现
 
 V3.2.0
 --------------------------
