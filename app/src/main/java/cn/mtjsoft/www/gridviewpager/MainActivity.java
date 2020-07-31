@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 int x = random.nextInt(5) + 5;
                 // 改变第二页的数据
                 for (int i = 0; i < titles.length; i++) {
