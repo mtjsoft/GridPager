@@ -12,7 +12,11 @@ v3.3.0 开始采用 viewpager2 + FlexBoxLayout 实现
 
 #  GridViewPager组件效果
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020062920115094.gif#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200731204720854.gif)
+
+#  内置了覆盖翻页的效果
+
+![覆盖的翻页效果](https://img-blog.csdnimg.cn/20200731205107341.gif)
 
 #  如何使用GridViewPager组件
 
@@ -33,7 +37,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.3.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.4.0'
 	}
 ```
 
@@ -75,6 +79,14 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+
+V3.4.0
+--------------------------
+修复已知问题
+
+新增 setCoverPageTransformer()方法，设置内置的覆盖渐变翻页效果
+
+新增 setCustomPageTransformer()方法，用于设置自定义的翻页效果
 
 V3.3.0
 --------------------------
