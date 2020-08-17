@@ -14,7 +14,7 @@ v3.3.0 开始采用 viewpager2 + FlexBoxLayout 实现
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200731204720854.gif)
 
-#  内置了覆盖翻页的效果
+#  内置了3个覆盖翻页的效果（这是其中一）
 
 ![覆盖的翻页效果](https://img-blog.csdnimg.cn/20200731205107341.gif)
 
@@ -37,7 +37,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.4.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.5.0'
 	}
 ```
 
@@ -79,6 +79,13 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+V3.5.0
+--------------------------
+修复已知问题
+
+新增 setTopOrDownPageTransformer(TopOrDownPageTransformer.ModeType.MODE_DOWN)方法，设置内置的上下进入翻页效果
+
+新增 setGalleryPageTransformer()方法，设置内置的画廊翻页效果
 
 V3.4.0
 --------------------------
