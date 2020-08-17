@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import java.util.Random;
 
 import cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager;
+import cn.mtjsoft.www.gridviewpager_recycleview.transformer.TopOrDownPageTransformer;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
@@ -159,30 +161,33 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         });
 
         // 测试翻页效果
-        GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
+        final GridViewPager gridViewPager2 = findViewById(R.id.gridviewpager2);
         gridViewPager2
                 // 设置数据总数量
                 .setDataAllCount(titles.length)
                 // 设置内置的覆盖翻页效果
                 .setCoverPageTransformer()
+                // 设置内置的上下进入效果
+//                .setTopOrDownPageTransformer(TopOrDownPageTransformer.ModeType.MODE_DOWN)
+                // 设置内置的画廊效果
+//                .setGalleryPageTransformer()
                 // 数据绑定
                 .setImageTextLoaderInterface(new GridViewPager.ImageTextLoaderInterface() {
                     @Override
                     public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
                         imageView.setImageResource(iconS[position]);
-                        textView.setText(titles[position]);
+                        textView.setText(titles[position].split("_")[0]);
                     }
                 })
                 // Item点击
                 .setGridItemClickListener(new GridViewPager.GridItemClickListener() {
                     @Override
                     public void click(int position) {
-                        Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "点击了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
-
 
         // 测试列表
         Button button3 = findViewById(R.id.btu_list);
@@ -190,6 +195,14 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getBaseContext(), ListActivity.class));
+            }
+        });
+
+        // 测试嵌套滑动
+        findViewById(R.id.btu_list2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), CoordinatorActivity.class));
             }
         });
     }

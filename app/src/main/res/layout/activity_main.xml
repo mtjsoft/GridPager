@@ -164,6 +164,15 @@
             android:layout_margin="10dp"
             android:background="@android:color/white"
             android:padding="10dp"
-            android:text="测试列表滑动" />
+            android:text="测试RecycleView列表滑动" />
+
+        <Button
+            android:id="@+id/btu_list2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            android:text="测试嵌套滑动" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

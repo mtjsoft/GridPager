@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListActivity" />
+        <activity android:name=".CoordinatorActivity"
+            android:theme="@style/NoActionBarAppTheme"/>
     </application>
 
 </manifest>

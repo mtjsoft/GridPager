@@ -15,13 +15,11 @@ public class CoverPageTransformer implements ViewPager2.PageTransformer {
     @Override
     public void transformPage(@NonNull View view, float position) {
         int pageWidth = view.getWidth();
-        if (position < 0) {
-            view.setAlpha(1 + position);
-        } else if (position == 0) {
+        if (position <= 0) { // [-1,0]
             view.setTranslationX(0);
+            view.setAlpha(1 + position);
             view.setScaleX(1);
             view.setScaleY(1);
-            view.setAlpha(1);
         } else { // (0,1]
             float SCALE = 0.5f - position / 2;
             view.setScaleX(MIN_SCALE + SCALE);
@@ -29,5 +27,6 @@ public class CoverPageTransformer implements ViewPager2.PageTransformer {
             view.setAlpha(1 - position);
             view.setTranslationX(pageWidth * -position);
         }
+        view.setVisibility(position == 1 || position == -1 ? View.GONE : View.VISIBLE);
     }
 }

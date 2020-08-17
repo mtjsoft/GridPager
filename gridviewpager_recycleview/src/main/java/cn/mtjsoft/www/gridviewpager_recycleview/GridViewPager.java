@@ -15,15 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 import cn.mtjsoft.www.gridviewpager_recycleview.transformer.CoverPageTransformer;
+import cn.mtjsoft.www.gridviewpager_recycleview.transformer.GalleryPageTransformer;
+import cn.mtjsoft.www.gridviewpager_recycleview.transformer.TopOrDownPageTransformer;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndDensityUtils;
 import cn.mtjsoft.www.gridviewpager_recycleview.view.AndSelectCircleView;
 
@@ -131,6 +134,7 @@ public class GridViewPager extends FrameLayout {
     /**
      * 添加布局
      */
+
     private void initView() {
         View view = View.inflate(getContext(), R.layout.gridpager_layout, null);
         bgImageView = view.findViewById(R.id.iv_bg);
@@ -156,7 +160,6 @@ public class GridViewPager extends FrameLayout {
             }
         });
     }
-
 
     private void handleTypedArray(Context context, AttributeSet attrs) {
         if (attrs == null) {
@@ -192,27 +195,16 @@ public class GridViewPager extends FrameLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //手指按下记录xy的位置
                 startX = ev.getX();
                 startY = ev.getY();
-                getParent().requestDisallowInterceptTouchEvent(true);
                 break;
             case MotionEvent.ACTION_MOVE:
-                //我们希望如果横向滑动距离大于纵向滑动距离，肯定是要操作 gridviewpager
-                //所以此处要告诉父控件不要拦截事件,否则事件交给父控件来处理
-                if (Math.abs(ev.getX() - startX) > Math.abs(ev.getY() - startY)) {
-                    getParent().requestDisallowInterceptTouchEvent(true);
+                if (Math.abs(ev.getX() - startX) < Math.abs(ev.getY() - startY)) {
+                    return false;
                 } else {
-                    getParent().requestDisallowInterceptTouchEvent(false);
+                    return super.dispatchTouchEvent(ev);
                 }
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                getParent().requestDisallowInterceptTouchEvent(false);
-                break;
-            default:
-                break;
         }
-
         return super.dispatchTouchEvent(ev);
     }
 
@@ -473,7 +465,8 @@ public class GridViewPager extends FrameLayout {
      *
      * @param imageTextLoaderInterface
      */
-    public GridViewPager setImageTextLoaderInterface(ImageTextLoaderInterface imageTextLoaderInterface) {
+    public GridViewPager setImageTextLoaderInterface(ImageTextLoaderInterface
+                                                             imageTextLoaderInterface) {
         this.imageTextLoaderInterface = imageTextLoaderInterface;
         return this;
     }
@@ -484,7 +477,8 @@ public class GridViewPager extends FrameLayout {
      * @param backgroundImageLoaderInterface
      * @return
      */
-    public GridViewPager setBackgroundImageLoader(BackgroundImageLoaderInterface backgroundImageLoaderInterface) {
+    public GridViewPager setBackgroundImageLoader(BackgroundImageLoaderInterface
+                                                          backgroundImageLoaderInterface) {
         this.backgroundImageLoaderInterface = backgroundImageLoaderInterface;
         return this;
     }
@@ -497,6 +491,9 @@ public class GridViewPager extends FrameLayout {
      */
     public GridViewPager setCustomPageTransformer(ViewPager2.PageTransformer pageTransformer) {
         this.pageTransformer = pageTransformer;
+        if (pageTransformer != null) {
+            viewPager2.setPageTransformer(pageTransformer);
+        }
         return this;
     }
 
@@ -507,6 +504,29 @@ public class GridViewPager extends FrameLayout {
      */
     public GridViewPager setCoverPageTransformer() {
         this.pageTransformer = new CoverPageTransformer();
+        viewPager2.setPageTransformer(pageTransformer);
+        return this;
+    }
+
+    /**
+     * 设置内置的画廊效果的 PageTransformer
+     *
+     * @return
+     */
+    public GridViewPager setGalleryPageTransformer() {
+        this.pageTransformer = new GalleryPageTransformer();
+        viewPager2.setPageTransformer(pageTransformer);
+        return this;
+    }
+
+    /**
+     * 设置内置的上下进入效果的 PageTransformer
+     *
+     * @return
+     */
+    public GridViewPager setTopOrDownPageTransformer(TopOrDownPageTransformer.ModeType modeType) {
+        this.pageTransformer = new TopOrDownPageTransformer(modeType);
+        viewPager2.setPageTransformer(pageTransformer);
         return this;
     }
 
@@ -535,9 +555,6 @@ public class GridViewPager extends FrameLayout {
     public void show() {
         if (dataAllCount == 0) {
             return;
-        }
-        if (pageTransformer != null) {
-            viewPager2.setPageTransformer(pageTransformer);
         }
         // 设置高度
         RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, getAutoHeight());
@@ -753,29 +770,29 @@ public class GridViewPager extends FrameLayout {
             }
         }
 
-        private class myClick implements OnClickListener {
-            int position;
-            int pageCount;
-
-            public myClick(int position, int pageCount) {
-                this.position = position;
-                this.pageCount = pageCount;
-            }
-
-            @Override
-            public void onClick(View v) {
-                if (gridItemClickListener != null) {
-                    gridItemClickListener.click(position * pageSize + pageCount);
-                }
-            }
-        }
-
         public class Holder extends RecyclerView.ViewHolder {
             private FlexboxLayout flexboxLayout;
 
             public Holder(@NonNull View itemView) {
                 super(itemView);
                 flexboxLayout = itemView.findViewById(R.id.flex_layout);
+            }
+        }
+    }
+
+    private class myClick implements OnClickListener {
+        private int position;
+        private int pageCount;
+
+        public myClick(int position, int pageCount) {
+            this.position = position;
+            this.pageCount = pageCount;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (gridItemClickListener != null) {
+                gridItemClickListener.click(position * pageSize + pageCount);
             }
         }
     }
