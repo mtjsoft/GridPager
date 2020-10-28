@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 .setRowCount(rowCount)
                 // 设置每页列数
                 .setColumnCount(columnCount)
+                // 设置无限循环
+                .setPageLoop(true)
                 // 设置是否显示指示器
                 .setPointIsShow(true)
                 // 设置指示器与page的间距
@@ -113,6 +115,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     @Override
                     public void click(int position) {
                         Toast.makeText(getBaseContext(), "点击了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
+                    }
+                })
+                // 设置Item长按
+                .setGridItemLongClickListener(new GridViewPager.GridItemLongClickListener() {
+                    @Override
+                    public void longClick(int position) {
+                        Toast.makeText(getBaseContext(), "长按了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
@@ -185,6 +194,13 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     @Override
                     public void click(int position) {
                         Toast.makeText(getBaseContext(), "点击了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
+                    }
+                })
+                // 设置Item长按
+                .setGridItemLongClickListener(new GridViewPager.GridItemLongClickListener() {
+                    @Override
+                    public void longClick(int position) {
+                        Toast.makeText(getBaseContext(), "长按了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();

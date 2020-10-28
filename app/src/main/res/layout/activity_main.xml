@@ -153,6 +153,7 @@
             app:point_select_color="#f00"
             app:point_width="15dp"
             app:row_count="3"
+            app:pager_loop="true"
             app:text_color="@color/white"
             app:text_size="12sp"
             app:verticalSpacing="10dp" />
