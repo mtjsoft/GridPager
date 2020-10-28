@@ -26,6 +26,8 @@
         <attr name="row_count" format="integer"></attr>
         <!--列数-->
         <attr name="column_count" format="integer"></attr>
+        <!--是否循环-->
+        <attr name="pager_loop" format="boolean"></attr>
 
         <!--指示点配置-->
         <!-- 设置子控件显示的宽度 -->

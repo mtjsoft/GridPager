@@ -196,7 +196,7 @@ public class AndSelectCircleView extends RadioGroup {
      * @param position
      */
     public void setSelectPosition(int position) {
-        if (position < getChildCount()) {
+        if (position < getChildCount() && position >= 0) {
             RadioButton button = (RadioButton) getChildAt(position);
             button.setChecked(true);
         }

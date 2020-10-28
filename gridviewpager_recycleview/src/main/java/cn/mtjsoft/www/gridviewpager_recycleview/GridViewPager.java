@@ -96,6 +96,8 @@ public class GridViewPager extends FrameLayout {
     private int backgroundColor = Color.WHITE;
     // item背景颜色
     private int itemBackgroundColor = Color.TRANSPARENT;
+    // 是否开启无限循环(页数大于1才有效)
+    private boolean pageLoop = false;
 
     // 用于切换动画
     private ViewPager2.PageTransformer pageTransformer;
@@ -104,6 +106,10 @@ public class GridViewPager extends FrameLayout {
      * item点击监听
      */
     private GridItemClickListener gridItemClickListener;
+    /**
+     * item长按监听
+     */
+    private GridItemLongClickListener gridItemLongClickListener;
 
     private ImageTextLoaderInterface imageTextLoaderInterface;
 
@@ -111,9 +117,6 @@ public class GridViewPager extends FrameLayout {
 
     private float startX;
     private float startY;
-
-    // 记录当前页
-    private int pageNumber = 0;
 
     public GridViewPager(Context context) {
         this(context, null);
@@ -150,8 +153,17 @@ public class GridViewPager extends FrameLayout {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                pageNumber = position;
-                andSelectCircleView.setSelectPosition(position);
+                int page = getPageSize();
+                if (pageLoop && page > 1) {
+                    if (position == 0) {
+                        viewPager2.setCurrentItem(integerList.size() - 2, false);
+                    } else if (position == integerList.size() - 1) {
+                        viewPager2.setCurrentItem(1, false);
+                    }
+                    andSelectCircleView.setSelectPosition(position - 1);
+                } else {
+                    andSelectCircleView.setSelectPosition(position);
+                }
             }
 
             @Override
@@ -178,6 +190,7 @@ public class GridViewPager extends FrameLayout {
         textImgMargin = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_imgtext_margin, AndDensityUtils.dip2px(getContext(), textImgMargin));
         rowCount = typedArray.getInt(R.styleable.GridViewPager_row_count, rowCount);
         columnCount = typedArray.getInt(R.styleable.GridViewPager_column_count, columnCount);
+        pageLoop = typedArray.getBoolean(R.styleable.GridViewPager_pager_loop, false);
         // 指示点
         mChildWidth = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_width, AndDensityUtils.dip2px(getContext(), mChildWidth));
         mChildHeight = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_height, AndDensityUtils.dip2px(getContext(), mChildHeight));
@@ -231,6 +244,17 @@ public class GridViewPager extends FrameLayout {
         if (columnCount > 0) {
             this.columnCount = columnCount;
         }
+        return this;
+    }
+
+    /**
+     * 设置是否无限循环（true 页码大于1时才有效）
+     *
+     * @param pageLoop
+     * @return
+     */
+    public GridViewPager setPageLoop(boolean pageLoop) {
+        this.pageLoop = pageLoop;
         return this;
     }
 
@@ -459,6 +483,15 @@ public class GridViewPager extends FrameLayout {
         return this;
     }
 
+    /**
+     * 设置 Item 长按监听
+     *
+     * @param gridItemLongClickListener
+     */
+    public GridViewPager setGridItemLongClickListener(GridItemLongClickListener gridItemLongClickListener) {
+        this.gridItemLongClickListener = gridItemLongClickListener;
+        return this;
+    }
 
     /**
      * 设置 图片加载
@@ -561,10 +594,8 @@ public class GridViewPager extends FrameLayout {
         rl.topMargin = pagerMarginTop;
         rl.bottomMargin = pagerMarginBottom;
         viewPager2.setLayoutParams(rl);
-        // 每页数据大小
-        pageSize = rowCount * columnCount;
         // 总页数
-        final int page = dataAllCount / pageSize + (dataAllCount % pageSize > 0 ? 1 : 0);
+        final int page = getPageSize();
         // 显示指示器
         andSelectCircleView.setVisibility((mIsShow && page > 1) ? View.VISIBLE : View.GONE);
         if (mIsShow && page > 1) {
@@ -585,7 +616,11 @@ public class GridViewPager extends FrameLayout {
                         public void checkedChange(int position) {
                             if (position >= 0 && position < page) {
                                 // 指示点点击，滚动到对应的页
-                                viewPager2.setCurrentItem(position, true);
+                                if (pageLoop) {
+                                    viewPager2.setCurrentItem(position + 1, true);
+                                } else {
+                                    viewPager2.setCurrentItem(position, true);
+                                }
                             }
                         }
                     })
@@ -604,12 +639,17 @@ public class GridViewPager extends FrameLayout {
     /**
      * 设置数据
      */
-    private List<String> stringList = new ArrayList<>();
+    private List<Integer> integerList = new ArrayList<>();
 
-    private void setAdapter(int page) {
-        stringList.clear();
+    private void setAdapter(final int page) {
+        integerList.clear();
         for (int i = 0; i < page; i++) {
-            stringList.add(i + "");
+            integerList.add(i);
+        }
+        // 如果开启了循环模式，首位各多添加一页
+        if (pageLoop && page > 1) {
+            integerList.add(0, integerList.get(integerList.size() - 1));
+            integerList.add(0);
         }
         if (pagerAdapter == null) {
             this.post(new Runnable() {
@@ -617,9 +657,12 @@ public class GridViewPager extends FrameLayout {
                 public void run() {
                     // post最后调用，可获取测量后的宽度
                     widthPixels = getMeasuredWidth();
-                    pagerAdapter = new PagerAdapter(viewPager2.getContext(), R.layout.gridpager_item_layout, stringList);
+                    pagerAdapter = new PagerAdapter(viewPager2.getContext(), R.layout.gridpager_item_layout, integerList);
                     viewPager2.setAdapter(pagerAdapter);
                     viewPager2.setOffscreenPageLimit(1);
+                    if (pageLoop && page > 1) {
+                        viewPager2.setCurrentItem(1, false);
+                    }
                 }
             });
         } else {
@@ -634,6 +677,9 @@ public class GridViewPager extends FrameLayout {
         if (pagerAdapter != null) {
             pagerAdapter.setChanged();
             pagerAdapter.notifyDataSetChanged();
+            if (pageLoop && getPageSize() > 1) {
+                viewPager2.setCurrentItem(1, false);
+            }
         }
     }
 
@@ -646,7 +692,11 @@ public class GridViewPager extends FrameLayout {
         // 总页数
         int page = getPageSize();
         if (position >= 0 && position < page && pagerAdapter != null) {
-            pagerAdapter.notifyItemChanged(position);
+            if (pageLoop && page > 1) {
+                pagerAdapter.notifyItemChanged(position + 1);
+            } else {
+                pagerAdapter.notifyItemChanged(position);
+            }
         }
     }
 
@@ -693,6 +743,13 @@ public class GridViewPager extends FrameLayout {
     }
 
     /**
+     * item点击回调
+     */
+    public interface GridItemLongClickListener {
+        void longClick(int position);
+    }
+
+    /**
      * 图片加载
      */
     public interface ImageTextLoaderInterface {
@@ -710,13 +767,12 @@ public class GridViewPager extends FrameLayout {
 
         private Context context;
         private int layoutResId;
-        private List<String> data;
+        private List<Integer> data;
         private ViewGroup.LayoutParams layoutParamsMatch;
         private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
 
-
-        public PagerAdapter(Context context, int layoutResId, List<String> data) {
+        public PagerAdapter(Context context, int layoutResId, List<Integer> data) {
             this.context = context;
             this.layoutResId = layoutResId;
             this.data = data;
@@ -745,10 +801,21 @@ public class GridViewPager extends FrameLayout {
         @Override
         public void onBindViewHolder(@NonNull PagerAdapter.Holder holder, int position) {
             holder.flexboxLayout.removeAllViews();
+            int posi = position;
+            int page = getPageSize();
+            if (pageLoop && page > 1) {
+                if (position == 0) { // 第一页，展示实际最后一页的内容
+                    posi = page - 1;
+                } else if (position == getItemCount() - 1) { // 最后一页，展示实际第一页的内容
+                    posi = 0;
+                } else { // 否则展示 position - 1 的实际内容
+                    posi = posi - 1;
+                }
+            }
             // 循环添加每页数据
             int pageSizeCount = pageSize;
             // 如果是最后一页，判断最后一页是否够每页的大小
-            if (position == getItemCount() - 1) {
+            if (posi == page - 1) {
                 pageSizeCount = dataAllCount % pageSize > 0 ? dataAllCount % pageSize : pageSize;
             }
             for (int i = 0; i < pageSizeCount; i++) {
@@ -763,9 +830,10 @@ public class GridViewPager extends FrameLayout {
                 textView.setTextColor(textColor);
                 textView.setLayoutParams(textLp);
                 if (imageTextLoaderInterface != null) {
-                    imageTextLoaderInterface.displayImageText(imageView, textView, position * pageSize + i);
+                    imageTextLoaderInterface.displayImageText(imageView, textView, posi * pageSize + i);
                 }
-                layout.setOnClickListener(new myClick(position, i));
+                layout.setOnClickListener(new myClick(posi, i));
+                layout.setOnLongClickListener(new myLongClick(posi, i));
                 holder.flexboxLayout.addView(view);
             }
         }
@@ -794,6 +862,25 @@ public class GridViewPager extends FrameLayout {
             if (gridItemClickListener != null) {
                 gridItemClickListener.click(position * pageSize + pageCount);
             }
+        }
+    }
+
+    private class myLongClick implements OnLongClickListener {
+
+        private int position;
+        private int pageCount;
+
+        public myLongClick(int position, int pageCount) {
+            this.position = position;
+            this.pageCount = pageCount;
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (gridItemLongClickListener != null) {
+                gridItemLongClickListener.longClick(position * pageSize + pageCount);
+            }
+            return true;
         }
     }
 }
