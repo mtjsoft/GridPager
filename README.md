@@ -37,7 +37,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.5.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.6.0'
 	}
 ```
 
@@ -59,6 +59,7 @@ dependencies {
         app:imgtext_margin="5dp"
         app:row_count="2"
         app:column_count="4"
+        app:pager_loop="true"
         app:point_is_show="true"
         app:point_width="15dp"
         app:point_height="2dp"
@@ -79,6 +80,17 @@ dependencies {
     </cn.mtjsoft.www.gridviewpager_recycleview.GridViewPager>
 ```
 # 4、GridViewPager组件的版本及属性说明
+
+
+V3.6.0
+--------------------------
+
+新增方法 setGridItemLongClickListener() 设置Item长按监听
+
+3.6.0 新增属性  | 属性说明 
+------------- | ------------- 
+pager_loop  | 是否开启无限循环滑动  默认 false 不开启
+
 V3.5.0
 --------------------------
 修复已知问题
@@ -198,6 +210,8 @@ notifyItemChanged(int position)  |  刷新指定页数据
                 .setRowCount(2)
                 // 设置每页列数
                 .setColumnCount(5)
+                // 设置无限循环
+                .setPageLoop(true)
                 // 设置是否显示指示器
                 .setPointIsShow(true)
                 // 设置指示器与page的间距
@@ -237,6 +251,13 @@ notifyItemChanged(int position)  |  刷新指定页数据
                     @Override
                     public void click(int position) {
                         Toast.makeText(getBaseContext(), "点击了" + titles[position] + position, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                // 设置Item长按
+                .setGridItemLongClickListener(new GridViewPager.GridItemLongClickListener() {
+                    @Override
+                    public void longClick(int position) {
+                        Toast.makeText(getBaseContext(), "长按了" + titles[position].split("_")[0], Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
