@@ -3,12 +3,14 @@ package cn.mtjsoft.www.gridviewpager_recycleview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.flexbox.AlignContent;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -98,6 +101,11 @@ public class GridViewPager extends FrameLayout {
     private int itemBackgroundColor = Color.TRANSPARENT;
     // 是否开启无限循环(页数大于1才有效)
     private boolean pageLoop = false;
+    // 是否显示文本，默认显示
+    private boolean mIsShowText = true;
+
+    // 子项对齐方式
+    private int alignContent = AlignContent.FLEX_START;
 
     // 用于切换动画
     private ViewPager2.PageTransformer pageTransformer;
@@ -191,6 +199,7 @@ public class GridViewPager extends FrameLayout {
         rowCount = typedArray.getInt(R.styleable.GridViewPager_row_count, rowCount);
         columnCount = typedArray.getInt(R.styleable.GridViewPager_column_count, columnCount);
         pageLoop = typedArray.getBoolean(R.styleable.GridViewPager_pager_loop, false);
+        mIsShowText = typedArray.getBoolean(R.styleable.GridViewPager_text_is_show, true);
         // 指示点
         mChildWidth = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_width, AndDensityUtils.dip2px(getContext(), mChildWidth));
         mChildHeight = typedArray.getDimensionPixelSize(R.styleable.GridViewPager_point_height, AndDensityUtils.dip2px(getContext(), mChildHeight));
@@ -255,6 +264,17 @@ public class GridViewPager extends FrameLayout {
      */
     public GridViewPager setPageLoop(boolean pageLoop) {
         this.pageLoop = pageLoop;
+        return this;
+    }
+
+    /**
+     * 是否显示文本控件
+     *
+     * @param mIsShowText
+     * @return
+     */
+    public GridViewPager setIsShowText(boolean mIsShowText) {
+        this.mIsShowText = mIsShowText;
         return this;
     }
 
@@ -470,6 +490,17 @@ public class GridViewPager extends FrameLayout {
      */
     public GridViewPager setPointMarginBottom(int pointMarginBottom) {
         this.pointMarginBottom = AndDensityUtils.dip2px(getContext(), pointMarginBottom);
+        return this;
+    }
+
+    /**
+     * 设置子项对其方式
+     *
+     * @param alignContent
+     * @return
+     */
+    public GridViewPager setAlignContent(@AlignContent int alignContent) {
+        this.alignContent = alignContent;
         return this;
     }
 
@@ -715,7 +746,23 @@ public class GridViewPager extends FrameLayout {
      * @return
      */
     private int getOnesHeight() {
-        return (int) (imageHeight + textImgMargin + textSize * 1.133);
+        if (mIsShowText) {
+            return (int) (imageHeight + textImgMargin + getFontHeight(textSize)); // textSize * 1.133
+        }
+        return imageHeight;
+    }
+
+    /**
+     * 计算字体高度
+     *
+     * @param fontSize
+     * @return
+     */
+    private int getFontHeight(float fontSize) {
+        Paint paint = new Paint();
+        paint.setTextSize(fontSize);
+        Paint.FontMetrics fm = paint.getFontMetrics();
+        return (int) Math.ceil(fm.descent - fm.ascent);
     }
 
     /**
@@ -769,7 +816,7 @@ public class GridViewPager extends FrameLayout {
         private int layoutResId;
         private List<Integer> data;
         private ViewGroup.LayoutParams layoutParamsMatch;
-        private LinearLayout.LayoutParams imageLp;
+        //        private LinearLayout.LayoutParams imageLp;
         private LinearLayout.LayoutParams textLp;
 
         public PagerAdapter(Context context, int layoutResId, List<Integer> data) {
@@ -781,7 +828,7 @@ public class GridViewPager extends FrameLayout {
 
         public void setChanged() {
             layoutParamsMatch = new ViewGroup.LayoutParams(widthPixels / columnCount, ViewGroup.LayoutParams.WRAP_CONTENT);
-            imageLp = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+//            imageLp = new LinearLayout.LayoutParams(imageWidth, imageHeight);
             textLp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textLp.topMargin = textImgMargin;
         }
@@ -824,11 +871,21 @@ public class GridViewPager extends FrameLayout {
                 layout.setLayoutParams(layoutParamsMatch);
                 layout.setBackgroundColor(itemBackgroundColor);
                 ImageView imageView = view.findViewById(R.id.item_image);
+                LinearLayout.LayoutParams imageLp = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+                if (i < columnCount) {
+                    imageLp.topMargin = 0;
+                } else {
+                    imageLp.topMargin = verticalSpacing;
+                }
                 imageView.setLayoutParams(imageLp);
-                TextView textView = view.findViewById(R.id.item_text);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-                textView.setTextColor(textColor);
-                textView.setLayoutParams(textLp);
+                TextView textView = null;
+                if (mIsShowText) { // 显示文本，初始化文本textView
+                    ViewStub viewStub = view.findViewById(R.id.vs_text);
+                    textView = (TextView) viewStub.inflate(); //view.findViewById(R.id.item_text);
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+                    textView.setTextColor(textColor);
+                    textView.setLayoutParams(textLp);
+                }
                 if (imageTextLoaderInterface != null) {
                     imageTextLoaderInterface.displayImageText(imageView, textView, posi * pageSize + i);
                 }
@@ -844,6 +901,7 @@ public class GridViewPager extends FrameLayout {
             public Holder(@NonNull View itemView) {
                 super(itemView);
                 flexboxLayout = itemView.findViewById(R.id.flex_layout);
+                flexboxLayout.setAlignContent(alignContent);
             }
         }
     }

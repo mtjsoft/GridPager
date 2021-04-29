@@ -10,6 +10,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.flexbox.AlignContent;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -26,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private int[] iconS = new int[titles.length];
 
-    private int rowCount = 2;
-    private int columnCount = 5;
+    private int rowCount = 3;
+    private int columnCount = 4;
     // 指定刷新某一页数据
     private int page = 0;
 
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         gridViewPager = findViewById(R.id.gridviewpager);
         gridViewPager
                 // 设置数据总数量
-                .setDataAllCount(6)
+                .setDataAllCount(18)
                 // 设置背景色，默认白色
                 .setGridViewPagerBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.white))
                 // 设置item的纵向间距
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 .setImageWidth(50)
                 // 设置图片高度
                 .setImageHeight(50)
+                // 设置是否显示文本
+                .setIsShowText(true)
+                // 设置子VIEW对齐方式
+                .setAlignContent(AlignContent.FLEX_START)
                 // 设置文字与图片的间距
                 .setTextImgMargin(5)
                 // 设置文字颜色
@@ -107,7 +113,9 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                     public void displayImageText(ImageView imageView, TextView textView, int position) {
                         // 自己进行数据的绑定，灵活度更高，不受任何限制
                         imageView.setImageResource(iconS[position]);
-                        textView.setText(titles[position]);
+                        if (textView != null) {
+                            textView.setText(titles[position]);
+                        }
                     }
                 })
                 // Item点击

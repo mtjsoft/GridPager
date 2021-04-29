@@ -7,7 +7,7 @@
     app:flexDirection="row"
     app:flexWrap="wrap"
     app:alignItems="flex_start"
-    app:alignContent="space_between">
+    app:alignContent="flex_start">
 
 
 </com.google.android.flexbox.FlexboxLayout>

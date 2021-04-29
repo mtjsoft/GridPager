@@ -16,6 +16,8 @@
         <attr name="img_width" format="dimension" />
         <!--icon 高度-->
         <attr name="img_height" format="dimension"></attr>
+        <!-- 是否展示文字 -->
+        <attr name="text_is_show" format="boolean"></attr>
         <!--文字颜色-->
         <attr name="text_color" format="color|reference"></attr>
         <!--文字大小-->
