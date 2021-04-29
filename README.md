@@ -37,7 +37,7 @@ allprojects {
 
 ```
 dependencies {
-	        implementation 'com.github.mtjsoft:GridPager:v3.6.0'
+	        implementation 'com.github.mtjsoft:GridPager:v3.7.0'
 	}
 ```
 
@@ -81,6 +81,20 @@ dependencies {
 ```
 # 4、GridViewPager组件的版本及属性说明
 
+V3.7.0
+--------------------------
+新增方法 setAlignContent() 设置Item行的对齐方式。等同FLEX布局的AlignContent，可设置以下6个值：
+```
+AlignContent.FLEX_START //（默认值）
+AlignContent.FLEX_END
+AlignContent.CENTER
+AlignContent.SPACE_BETWEEN
+AlignContent.SPACE_AROUND
+AlignContent.STRETCH
+```
+新增属性  | 属性说明 
+------------- | ------------- 
+text_is_show  | 是否需要显示文本，默认true显示（一般作为表情面板时，可以直接设置false不显示）。也可通过方法setIsShowText()设置
 
 V3.6.0
 --------------------------
